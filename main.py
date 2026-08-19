@@ -321,9 +321,17 @@ def view_safety_summary(valid_records):
     # Task 4: Total accidents and total casualties
     total_accidents = len(valid_records)
     total_casualties = sum(record["casualties"] for record in valid_records)
-    
-    print(f"\nTotal accidents: {total_accidents}")
-    print(f"Total casualties: {total_casualties}")
+
+    print("\n" + "-" * 40)
+    print("ACCIDENT AND CASUALTY SUMMARY")
+    print("-" * 40)
+    print(f"Total Accidents             : {total_accidents:,}")
+    print(f"Total Casualties            : {total_casualties:,}")
+
+    # Average casualties per accident
+    average_casualties = total_casualties / total_accidents if total_accidents > 0 else 0
+    print(f"Average Casualties/Accident : {average_casualties:.2f}")
+    print("-" * 40)
     
     # Additional summary statistics
     print("\n" + "-" * 40)
