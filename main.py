@@ -431,5 +431,43 @@ def main():
 # SCRIPT EXECUTION
 # ---------------------------------------------------------
 
+all_records = load_records(DATA_FILE)
+valid_records, invalid_records = split_valid_invalid(all_records)
+
+while True:
+    print("\nRoad Accidents Analysis Menu")
+    print("1. View accident records")
+    print("2. Analyse severity")
+    print("3. Analyse causes")
+    print("4. Analyse locations and time periods") # ANDREW TASK
+    print("5. View invalid records")
+    print("6. View safety summary")
+    print("7. Exit")
+
+        choice = input("Enter your choice (1-7): ").strip()
+
+        if choice == "1":
+            view_accident_records(valid_records)
+        elif choice == "2":
+            analyse_severity(valid_records)
+        elif choice == "3":
+            analyse_causes(valid_records)
+        elif choice == "4":
+            analyse_locations_and_time(valid_records)
+        elif choice == "5":
+            view_invalid_records(invalid_records)
+        elif choice == "6":
+            view_safety_summary(valid_records)
+        elif choice == "7":
+            print("\nExiting program. Stay safe on the roads!")
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 7.")
+
+
+# ---------------------------------------------------------
+# SCRIPT EXECUTION
+# ---------------------------------------------------------
+
 if __name__ == "__main__":
     main()
