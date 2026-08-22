@@ -8,7 +8,9 @@ DATA_FILE = "08_Road_Accidents.csv"  # update with actual filename
 VALID_SEVERITIES = {"Minor", "Serious", "Fatal"}
 
 
+# ---------------------------------------------------------
 # DATA LOADING / CLEANING (Coding Tasks 1 & 2)
+# ---------------------------------------------------------
 
 def load_records(file):
     """
@@ -249,9 +251,17 @@ def analyse_locations_and_time(valid_records):
     
     # Task 7: Location with most casualties
     if location_casualties:
-        most_casualty_loc = max(location_casualties, key=location_casualties.get)
-        print(f"\nLocation with most casualties: {most_casualty_loc}")
-        print(f"  {location_casualties[most_casualty_loc]} casualties")
+        max_casualties = max(location_casualties.values())
+
+        most_casualty_locations = [
+            location
+            for location, casualties in location_casualties.items()
+            if casualties == max_casualties
+        ]
+
+        print("\nLocation(s) with most casualties:")
+        for location in most_casualty_locations:
+            print(f"  {location}: {max_casualties} casualties")
     
     # Task 8: Time period with most accidents
     time_period_counts = {}
