@@ -283,8 +283,67 @@ Accidents by time period:
 Time period(s) with most accidents: Afternoon, Morning
   5 accidents
 
+============================================================
+INVALID RECORDS
+============================================================
+
+Total invalid records: 2
+------------------------------------------------------------
+
+Accident ID: A007
+  Location: Waiyaki Way
+  Severity: Serious
+  Casualties: -1
+  Reasons for rejection:
+    - Casualties cannot be negative
+----------------------------------------
+
+Accident ID: A014
+  Location: Kisumu-Kakamega Rd
+  Severity: Critical
+  Casualties: 4
+  Reasons for rejection:
+    - Severity must be Minor, Serious, or Fatal
+----------------------------------------
+
+============================================================
+SAFETY SUMMARY
+============================================================
+
+Total accidents: 18
+Total casualties: 34
+
+----------------------------------------
+Additional Statistics:
+  Average casualties per accident: 1.89
+  Severity breakdown:
+    Fatal: 6 (33.3%)
+    Minor: 6 (33.3%)
+    Serious: 6 (33.3%)
+  Fatal accident rate: 33.3%
+  Most common cause: Speeding
+    (5 accidents)
+
+### Checked for invalid choice 
+Enter your choice (1-7): 9
+Invalid choice. Please enter a number between 1 and 7.
 
 
-## 3. Test Results
+# After Testing 
+We discovered that option 4 shows only one location with most casualties when in reality there were two locations with the most casualties so we corrected the function.
+============================================================
+LOCATION AND TIME PERIOD ANALYSIS
+============================================================
+
+Location(s) with most casualties:
+  Nakuru-Eldoret Rd: 12 casualties
+  Kisumu-Kakamega Rd: 12 casualties
+
 
 ## 4. Conclusion
+
+The testing of the Road Accident Records Analyser confirmed that the program performs its intended functions correctly. The system was tested for record validation, data processing, accident analysis, identification of common causes and locations, casualty calculations, severity analysis, and handling of invalid records.
+
+The tests showed that valid accident records were processed correctly, while invalid records were identified and rejected with appropriate reasons. The analysis functions also produced the expected results from the dataset, including accident counts, casualty totals, most common causes, risky locations, and fatal accident percentages.
+
+Overall, the Road Accident Records Analyser met the specified functional requirements and demonstrated that the program can reliably process and analyse road accident records. The testing also helped identify and correct errors during development, improving the accuracy and reliability of the final system.
