@@ -6,9 +6,8 @@
 
 ### Test Case 1: Load CSV Records
     Loaded 20 records from 08_Road_Accidents.csv
-============================================================
-ACCIDENT RECORDS
-============================================================
+
+### ACCIDENT RECORDS
 
 Record 1:
   Accident ID: A001
@@ -19,7 +18,6 @@ Record 1:
   Severity: Serious
   Vehicles Involved: 2
   Casualties: 1
-----------------------------------------
 
 Record 2:
   Accident ID: A002
@@ -30,7 +28,6 @@ Record 2:
   Severity: Fatal
   Vehicles Involved: 3
   Casualties: 2
-----------------------------------------
 
 Record 3:
   Accident ID: A003
@@ -41,7 +38,6 @@ Record 3:
   Severity: Minor
   Vehicles Involved: 4
   Casualties: 3
-----------------------------------------
 
 Record 4:
   Accident ID: A004
@@ -52,7 +48,6 @@ Record 4:
   Severity: Serious
   Vehicles Involved: 1
   Casualties: 4
-----------------------------------------
 
 Record 5:
   Accident ID: A005
@@ -63,7 +58,6 @@ Record 5:
   Severity: Fatal
   Vehicles Involved: 2
   Casualties: 0
-----------------------------------------
 
 Record 6:
   Accident ID: A006
@@ -74,7 +68,6 @@ Record 6:
   Severity: Minor
   Vehicles Involved: 3
   Casualties: 1
-----------------------------------------
 
 Record 7:
   Accident ID: A008
@@ -85,7 +78,6 @@ Record 7:
   Severity: Fatal
   Vehicles Involved: 1
   Casualties: 3
-----------------------------------------
 
 Record 8:
   Accident ID: A009
@@ -96,7 +88,6 @@ Record 8:
   Severity: Minor
   Vehicles Involved: 2
   Casualties: 4
-----------------------------------------
 
 Record 9:
   Accident ID: A010
@@ -107,7 +98,6 @@ Record 9:
   Severity: Serious
   Vehicles Involved: 3
   Casualties: 0
-----------------------------------------
 
 Record 10:
   Accident ID: A011
@@ -118,7 +108,6 @@ Record 10:
   Severity: Fatal
   Vehicles Involved: 4
   Casualties: 1
-----------------------------------------
 
 Record 11:
   Accident ID: A012
@@ -129,7 +118,6 @@ Record 11:
   Severity: Minor
   Vehicles Involved: 1
   Casualties: 2
-----------------------------------------
 
 Record 12:
   Accident ID: A013
@@ -140,7 +128,6 @@ Record 12:
   Severity: Serious
   Vehicles Involved: 2
   Casualties: 3
-----------------------------------------
 
 Record 13:
   Accident ID: A015
@@ -151,7 +138,6 @@ Record 13:
   Severity: Minor
   Vehicles Involved: 4
   Casualties: 0
-----------------------------------------
 
 Record 14:
   Accident ID: A016
@@ -162,7 +148,6 @@ Record 14:
   Severity: Serious
   Vehicles Involved: 1
   Casualties: 1
-----------------------------------------
 
 Record 15:
   Accident ID: A017
@@ -173,7 +158,6 @@ Record 15:
   Severity: Fatal
   Vehicles Involved: 2
   Casualties: 2
-----------------------------------------
 
 Record 16:
   Accident ID: A018
@@ -184,7 +168,6 @@ Record 16:
   Severity: Minor
   Vehicles Involved: 3
   Casualties: 3
-----------------------------------------
 
 Record 17:
   Accident ID: A019
@@ -195,7 +178,6 @@ Record 17:
   Severity: Serious
   Vehicles Involved: 4
   Casualties: 4
-----------------------------------------
 
 Record 18:
   Accident ID: A020
@@ -206,14 +188,13 @@ Record 18:
   Severity: Fatal
   Vehicles Involved: 1
   Casualties: 0
-----------------------------------------
+
 ### Test Case 2: Checked for valid and invalid records
     Valid records: 18
     Invalid records: 2
 
 ### Test Case From the input Menu for all the function
 Road Accidents Analysis Menu
-==================================================
 1. View accident records
 2. Analyse severity
 3. Analyse causes
@@ -221,10 +202,9 @@ Road Accidents Analysis Menu
 5. View invalid records
 6. View safety summary
 7. Exit
-==================================================
-============================================================
-SEVERITY ANALYSIS
-============================================================
+
+### SEVERITY ANALYSIS
+
 
 Total accidents: 18
 
@@ -236,9 +216,9 @@ Accidents by severity:
 Fatal accidents: 6
 Percentage of fatal accidents: 33.33%
 
-============================================================
-CAUSE ANALYSIS
-============================================================
+
+### CAUSE ANALYSIS
+
 
 Accidents by cause:
   Speeding: 5 (27.8%)
@@ -250,9 +230,9 @@ Accidents by cause:
 Most common cause: Speeding
 Number of accidents: 5
 
-============================================================
-LOCATION AND TIME PERIOD ANALYSIS
-============================================================
+
+### LOCATION AND TIME PERIOD ANALYSIS
+
 
 Accidents by location:
   Mombasa Road: 4 accidents
@@ -283,12 +263,12 @@ Accidents by time period:
 Time period(s) with most accidents: Afternoon, Morning
   5 accidents
 
-============================================================
-INVALID RECORDS
-============================================================
+
+### INVALID RECORDS
+
 
 Total invalid records: 2
-------------------------------------------------------------
+
 
 Accident ID: A007
   Location: Waiyaki Way
@@ -296,7 +276,6 @@ Accident ID: A007
   Casualties: -1
   Reasons for rejection:
     - Casualties cannot be negative
-----------------------------------------
 
 Accident ID: A014
   Location: Kisumu-Kakamega Rd
@@ -304,16 +283,16 @@ Accident ID: A014
   Casualties: 4
   Reasons for rejection:
     - Severity must be Minor, Serious, or Fatal
-----------------------------------------
 
-============================================================
-SAFETY SUMMARY
-============================================================
+
+
+### SAFETY SUMMARY
+
 
 Total accidents: 18
 Total casualties: 34
 
-----------------------------------------
+
 Additional Statistics:
   Average casualties per accident: 1.89
   Severity breakdown:
@@ -331,9 +310,9 @@ Invalid choice. Please enter a number between 1 and 7.
 
 # After Testing 
 We discovered that option 4 shows only one location with most casualties when in reality there were two locations with the most casualties so we corrected the function.
-============================================================
-LOCATION AND TIME PERIOD ANALYSIS
-============================================================
+
+### LOCATION AND TIME PERIOD ANALYSIS
+
 
 Location(s) with most casualties:
   Nakuru-Eldoret Rd: 12 casualties
