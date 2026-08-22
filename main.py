@@ -391,9 +391,9 @@ while True:
         view_invalid_records(invalid_records)
     elif choice == "6":
         view_safety_summary(valid_records)
-    elif choice == "7":cl
+    elif choice == "7":
         print("\nExiting program. Stay safe on the roads!")
         break
     else:
-        print("Invalid choice. Please enter a number between 1 and 7.")
+        print("Invalid choice. Please enter a number between 1 and 7.") # tested.
 
