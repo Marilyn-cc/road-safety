@@ -1,0 +1,148 @@
+START
+
+    OPEN the accident records CSV file
+
+    READ all accident records
+    STORE the records as a list of dictionaries
+
+    CHECK the unique accident causes
+
+    STANDARDIZE the accident causes
+        REMOVE extra spaces
+        CAPITALIZE the first letter of each word
+
+    CONVERT vehicles_involved to integer
+    CONVERT casualties to integer
+
+    CREATE an empty list called valid_records
+    CREATE an empty list called invalid_records
+
+    FOR each accident record
+
+        CREATE an empty list called reasons
+
+        IF vehicles involved is less than 0
+            ADD "Vehicles involved cannot be negative" to reasons
+        END IF
+
+        IF casualties is less than 0
+            ADD "Casualties cannot be negative" to reasons
+        END IF
+
+        IF severity is not Minor, Serious or Fatal
+            ADD "Invalid severity" to reasons
+        END IF
+
+        IF location is empty
+            ADD "Location is missing" to reasons
+        END IF
+
+        IF cause is empty
+            ADD "Cause is missing" to reasons
+        END IF
+
+        IF time period is empty
+            ADD "Time period is missing" to reasons
+        END IF
+
+        IF reasons is empty
+            ADD record to valid_records
+        ELSE
+            ADD record and reasons to invalid_records
+        END IF
+
+    END FOR
+
+
+    CALCULATE total accidents
+        COUNT the valid records
+
+    CALCULATE total casualties
+        ADD casualties from each valid record
+
+
+    COUNT accidents by severity
+
+    COUNT accidents by cause
+
+    IDENTIFY the most common cause
+
+
+    COUNT accidents by location
+
+    CALCULATE total casualties for each location
+
+    IDENTIFY location or locations with most accidents
+
+    IDENTIFY location or locations with most casualties
+
+
+    COUNT accidents by time period
+
+    IDENTIFY time period or periods with most accidents
+
+
+    COUNT fatal accidents
+
+    CALCULATE percentage of fatal accidents
+
+
+    DEFINE function to view accident records
+
+    DEFINE function to analyse severity
+
+    DEFINE function to analyse causes
+
+    DEFINE function to analyse locations and time periods
+
+    DEFINE function to view invalid records
+
+    DEFINE function to display safety summary
+
+
+    DISPLAY menu
+
+    WHILE user has not selected Exit
+
+        DISPLAY:
+            1. View accident records
+            2. Analyse severity
+            3. Analyse causes
+            4. Analyse locations and time periods
+            5. View invalid records
+            6. View safety summary
+            7. Exit
+
+        GET user's choice
+
+        IF choice is 1
+            CALL view accident records function
+
+        ELSE IF choice is 2
+            CALL analyse severity function
+
+        ELSE IF choice is 3
+            CALL analyse causes function
+
+        ELSE IF choice is 4
+            CALL analyse locations and time periods function
+
+        ELSE IF choice is 5
+            CALL view invalid records function
+
+        ELSE IF choice is 6
+            CALL safety summary function
+
+        ELSE IF choice is 7
+            DISPLAY "Exiting the program"
+            BREAK the loop
+
+        ELSE
+            DISPLAY "Invalid selection Choose a number between 1 and 7"
+            RETURN to the menu
+
+        END IF
+
+    END WHILE
+
+END
