@@ -8,9 +8,7 @@ DATA_FILE = "08_Road_Accidents.csv"  # update with actual filename
 VALID_SEVERITIES = {"Minor", "Serious", "Fatal"}
 
 
-# ---------------------------------------------------------
 # DATA LOADING / CLEANING (Coding Tasks 1 & 2)
-# ---------------------------------------------------------
 
 def load_records(file):
     """
