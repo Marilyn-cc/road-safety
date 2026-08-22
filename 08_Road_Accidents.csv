@@ -1,0 +1,21 @@
+accident_id,location,county,time_period,cause,severity,vehicles_involved,casualties
+A001,Mombasa Road,Kiambu,Afternoon,Unsafe overtaking,Serious,2,1
+A002,Waiyaki Way,Nakuru,Evening,Pedestrian crossing,Fatal,3,2
+A003,Nakuru-Eldoret Rd,Kisumu,Night,Poor visibility,Minor,4,3
+A004,Kisumu-Kakamega Rd,Kajiado,Morning,Mechanical failure,Serious,1,4
+A005,Thika Road,Nairobi,Afternoon,Speeding,Fatal,2,0
+A006,Mombasa Road,Kiambu,Evening,Unsafe overtaking,Minor,3,1
+A007,Waiyaki Way,Nakuru,Night,Pedestrian crossing,Serious,4,-1
+A008,Nakuru-Eldoret Rd,Kisumu,Morning,Poor visibility,Fatal,1,3
+A009,Kisumu-Kakamega Rd,Kajiado,Afternoon,Mechanical failure,Minor,2,4
+A010,Thika Road,Nairobi,Evening,Speeding,Serious,3,0
+A011,Mombasa Road,Kiambu,Night,Unsafe overtaking,Fatal,4,1
+A012,Waiyaki Way,Nakuru,Morning,Pedestrian crossing,Minor,1,2
+A013,Nakuru-Eldoret Rd,Kisumu,Afternoon,Poor visibility,Serious,2,3
+A014,Kisumu-Kakamega Rd,Kajiado,Evening,Mechanical failure,Critical,3,4
+A015,Thika Road,Nairobi,Night,Speeding,Minor,4,0
+A016,Mombasa Road,Kiambu,Morning,Unsafe overtaking,Serious,1,1
+A017,Waiyaki Way,Nakuru,Afternoon,Pedestrian crossing,Fatal,2,2
+A018,Nakuru-Eldoret Rd,Kisumu,Evening,speeding,Minor,3,3
+A019,Kisumu-Kakamega Rd,Kajiado,Night,Mechanical failure,Serious,4,4
+A020,Thika Road,Nairobi,Morning,Speeding,Fatal,1,0
