@@ -1,16 +1,19 @@
 """
+Group 8 - Capstone Project (DSA 8103)
+Members: Christine, Emmanuel, Rehema, Marilyne, Andrew
+
 08_Road_Accidents - Menu-Driven Analysis Program
 User Core Python only (no external libraries)
+
 """
 
-DATA_FILE = "08_Road_Accidents.csv"  # We pulled the sheet "08_Road_Accidents from the excel workbook and saved it
+DATA_FILE = "08_Road_Accidents.csv"  # We pulled the sheet "08_Road_Accidents from the 'Capstone_Dataset.xlsx' workbook and saved it
                                      #  as a CSV file for easier processing
 
 VALID_SEVERITIES = {"Minor", "Serious", "Fatal"} # as per the question, there are only 3 valid severities
 
 
 # DATA LOADING / CLEANING (Coding Tasks 1 & 2)
-
 
 def load_records(file): # function to load records from CSV file
 # Read the CSV and store records as a list of dictionaries.

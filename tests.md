@@ -307,6 +307,9 @@ Additional Statistics:
 Enter your choice (1-7): 9
 Invalid choice. Please enter a number between 1 and 7.
 
+updated the invalid choice message to be: 
+Invalid choice '{choice}'. Please make a menu choice between 1 and 7."
+
 
 # After Testing 
 We discovered that option 4 shows only one location with most casualties when in reality there were two locations with the most casualties so we corrected the function.
