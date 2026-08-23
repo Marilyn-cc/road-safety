@@ -321,6 +321,20 @@ Location(s) with most casualties:
   Nakuru-Eldoret Rd: 12 casualties
   Kisumu-Kakamega Rd: 12 casualties
 
+### Severity Analysis 
+Included total casualties as output
+
+Total accidents: 18
+Total casualties: 34
+
+Accidents by severity:
+  Fatal: 6 (33.3%)
+  Minor: 6 (33.3%)
+  Serious: 6 (33.3%)
+
+Fatal accidents: 6
+Percentage of fatal accidents: 33.33%
+
 
 ## 4. Conclusion
 
