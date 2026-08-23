@@ -130,9 +130,9 @@ def analyse_severity(valid_records):
     (severity part): Count accidents by severity.
     Calculate percentage of fatal accidents.
     """
-    print("\n" + "=" * 60)
-    print("SEVERITY ANALYSIS")
-    print("=" * 60)
+    print("\n" + "=" * 60) # goes into a new line and puts a seperator in the output  -> ==============================
+    print("SEVERITY ANALYSIS") #prints the heading of the option output               -> SEVERITY ANALYSIS
+    print("=" * 60)    # puts closing a seperator in the output            -> ==============================
     
     if not valid_records:
         print("No valid records to analyze.")
