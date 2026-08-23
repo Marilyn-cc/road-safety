@@ -167,9 +167,9 @@ def analyse_causes(valid_records):
       Count accidents by cause.
      Identify most common cause.
     """
-    print("\n" + "=" * 60)
-    print("CAUSE ANALYSIS")
-    print("=" * 60)
+    print("\n" + "=" * 60) # new line and separator in the output  -> ==============================
+    print("CAUSE ANALYSIS") # prints the heading of the option output -> CAUSE ANALYSIS
+    print("=" * 60) # puts closing a seperator in the output            -> ==============================
     
     if not valid_records:
         print("No valid records to analyze.")
@@ -368,14 +368,17 @@ all_records = load_records(DATA_FILE)
 valid_records, invalid_records = split_valid_invalid(all_records)
 
 while True:
-    print("\nRoad Accidents Analysis Menu")
+    print("\n" + "+" * 60) #added some formating of the title and menu options to make it more readable
+    print("ROAD ACCIDENTS ANALYSIS MENU") #capitalized the title of the menu to make it distinguishable from the menu options
+    print("+" * 60)#  footer of the menu options -> ++++++++++++
     print("1. View accident records")
     print("2. Analyse severity")
     print("3. Analyse causes")
-    print("4. Analyse locations and time periods") # ANDREW TASK
+    print("4. Analyse locations and time periods") # ANDREW TASK (completed)
     print("5. View invalid records")
     print("6. View safety summary")
     print("7. Exit")
+    print("+" * 60) #separate the menu options from the input section to make it more readable
 
     choice = input("Enter your choice (1-7): ").strip()
 
@@ -393,6 +396,8 @@ while True:
         view_safety_summary(valid_records)
     elif choice == "7":
         print("\nExiting program. Stay safe on the roads!")
+        print("Thank you for using the Road Accidents Analysis Program.")
+        print("<" *24 + "+ Goodbye! +" + ">" *24) #added some formatting to the goodbye message 
         break
     else:
         print("Invalid choice. Please enter a number between 1 and 7.") # tested.
