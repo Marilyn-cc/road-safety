@@ -408,7 +408,8 @@ while True:
         print("\n" + "<" *22 + "88 Goodbye! 88" + ">" *22 + "\n") #added some formatting to the goodbye message 
         break
     else:
-        print(f"\nInvalid choice '{choice}'. Please make a menu choice between 1 and 7.") # tested. #added new line to make the error message more readable and distinguishable from input options
+        print(f"\n\033[31mInvalid choice '{choice}'. Please make a menu choice between 1 and 7.\033[0m") # tested. #added new line to make the error message more readable and distinguishable from input options
         # included the invalid choice in the error message to make it more informative for the user -acw
         #adjusted the error message to make it more user-friendly and informative, guiding the user to select a valid option from the menu.
+        #"\n\033[31m message \033[0m" in print makes the output red in color to make it more distinguishable from the menu options and other outputs.
 
