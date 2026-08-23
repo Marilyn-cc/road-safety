@@ -1,23 +1,25 @@
 """
+Group 8 - Capstone Project (DSA 8103)
+Members: Christine, Emmanuel, Rehema, Marilyne, Andrew
+
 08_Road_Accidents - Menu-Driven Analysis Program
-Core Python only (no external libraries)
+User Core Python only (no external libraries)
+
 """
 
-DATA_FILE = "08_Road_Accidents.csv"  # update with actual filename
+DATA_FILE = "08_Road_Accidents.csv"  # We pulled the sheet "08_Road_Accidents from the 'Capstone_Dataset.xlsx' workbook and saved it
+                                     #  as a CSV file for easier processing
 
-VALID_SEVERITIES = {"Minor", "Serious", "Fatal"}
+VALID_SEVERITIES = {"Minor", "Serious", "Fatal"} # as per the question, there are only 3 valid severities
 
 
-# ---------------------------------------------------------
 # DATA LOADING / CLEANING (Coding Tasks 1 & 2)
-# ---------------------------------------------------------
 
-def load_records(file):
-    """
-    Task 1: Read the CSV and store records as a list of dictionaries.
-    Task 2: Standardize capitalization differences in accident causes.
-    Returns: list of dicts (raw, not yet validated).
-    """
+def load_records(file): # function to load records from CSV file
+# Read the CSV and store records as a list of dictionaries.
+# Standardize capitalization differences in accident causes.
+# Returns: list of dicts (raw, not yet validated).
+
     import csv
 
     records = []
@@ -35,41 +37,40 @@ def load_records(file):
             row["casualties"] = int(row["casualties"])
 
             records.append(row)
-
     return records
 
 
 def validate_record(record):
     """
-    Task 3: Check a single record against the validation rules.
+    Check a single record against the validation rules.
     Returns: (is_valid: bool, reasons: list[str])
     """
 
     reasons = []
 
-    # Rule 1: vehicles involved must be a non-negative integer
+    # check: vehicles involved must be a non-negative integer
     if record["vehicles_involved"] < 0:
         reasons.append("Vehicles involved cannot be negative")
 
-    # Rule 2: casualties must be a non-negative integer
+    # Check: casualties must be a non-negative integer
     if record["casualties"] < 0:
         reasons.append("Casualties cannot be negative")
 
-    # Rule 3: severity must be Minor, Serious, or Fatal
+    # check: severity must be Minor, Serious, or Fatal
     if record["severity"] not in VALID_SEVERITIES:
         reasons.append(
             "Severity must be Minor, Serious, or Fatal"
         )
 
-    # Rule 4: location must be provided
+    # Check: location must be provided
     if not record["location"].strip():
         reasons.append("Location cannot be blank")
 
-    # Rule 5: cause must be provided
+    # check: cause must be provided
     if not record["cause"].strip():
         reasons.append("Cause cannot be blank")
 
-    # Rule 6: time period must be provided
+    # Check: time period must be provided
     if not record["time_period"].strip():
         reasons.append("Time period cannot be blank")
 
@@ -97,9 +98,7 @@ def split_valid_invalid(records):
     return valid_records, invalid_records
 
 
-# ---------------------------------------------------------
-# MENU OPTION 1: View accident records
-# ---------------------------------------------------------
+# Menu option 1: Function to display accident records_______________
 
 def view_accident_records(valid_records):
     """
@@ -126,18 +125,17 @@ def view_accident_records(valid_records):
         print("-" * 40)
 
 
-# ---------------------------------------------------------
-# MENU OPTION 2: Analyse severity
-# ---------------------------------------------------------
+
+# Menu option 2: Function to analyse severity
 
 def analyse_severity(valid_records):
     """
-    Task 5 (severity part): Count accidents by severity.
-    Task 9: Calculate percentage of fatal accidents.
+    (severity part): Count accidents by severity.
+    Calculate percentage of fatal accidents.
     """
-    print("\n" + "=" * 60)
-    print("SEVERITY ANALYSIS")
-    print("=" * 60)
+    print("\n" + "=" * 60) # goes into a new line and puts a seperator in the output  -> ==============================
+    print("SEVERITY ANALYSIS") #prints the heading of the option output               -> SEVERITY ANALYSIS
+    print("=" * 60)    # puts closing a seperator in the output            -> ==============================
     
     if not valid_records:
         print("No valid records to analyze.")
@@ -158,25 +156,23 @@ def analyse_severity(valid_records):
         percentage = (count / total) * 100
         print(f"  {severity}: {count} ({percentage:.1f}%)")
     
-    # Task 9: Calculate percentage of fatal accidents
+    #  Calculate percentage of fatal accidents
     fatal_count = severity_counts.get("Fatal", 0)
     fatal_percentage = (fatal_count / total) * 100 if total > 0 else 0
     print(f"\nFatal accidents: {fatal_count}")
     print(f"Percentage of fatal accidents: {fatal_percentage:.2f}%")
 
 
-# ---------------------------------------------------------
-# MENU OPTION 3: Analyse causes of accidents
-# ---------------------------------------------------------
+# Menu option 3: function to analyse causes of accidents
 
 def analyse_causes(valid_records):
     """
-    Task 5 (cause part): Count accidents by cause.
-    Task 6: Identify most common cause.
+      Count accidents by cause.
+     Identify most common cause.
     """
-    print("\n" + "=" * 60)
-    print("CAUSE ANALYSIS")
-    print("=" * 60)
+    print("\n" + "=" * 60) # new line and separator in the output  -> ==============================
+    print("CAUSE ANALYSIS") # prints the heading of the option output -> CAUSE ANALYSIS
+    print("=" * 60) # puts closing a seperator in the output            -> ==============================
     
     if not valid_records:
         print("No valid records to analyze.")
@@ -196,21 +192,20 @@ def analyse_causes(valid_records):
         percentage = (count / total) * 100
         print(f"  {cause}: {count} ({percentage:.1f}%)")
     
-    # Task 6: Find most common cause
+    #  Find most common cause
     if cause_counts:
         most_common = max(cause_counts, key=cause_counts.get)
         print(f"\nMost common cause: {most_common}")
         print(f"Number of accidents: {cause_counts[most_common]}")
 
 
-# ---------------------------------------------------------
-# MENU OPTION 4: Analyse locations and time periods
-# ---------------------------------------------------------
+
+# Menu option 4: Analyse locations and time periods
 
 def analyse_locations_and_time(valid_records):
     """
-    Task 7: Location with most accidents, location with most casualties.
-    Task 8: Time period with most accidents.
+     Location with most accidents, location with most casualties.
+     Time period with most accidents.
     """
     print("\n" + "=" * 60)
     print("LOCATION AND TIME PERIOD ANALYSIS")
@@ -243,13 +238,13 @@ def analyse_locations_and_time(valid_records):
     for location, casualties in sorted(location_casualties.items(), key=lambda x: x[1], reverse=True):
         print(f"  {location}: {casualties} casualties")
     
-    # Task 7: Location with most accidents
-    if location_accidents:
-        most_accident_loc = max(location_accidents, key=location_accidents.get)
-        print(f"\nLocation with most accidents: {most_accident_loc}")
-        print(f"  {location_accidents[most_accident_loc]} accidents")
+    ##  Location with most accidents #Had an error which was corrected to show multiple locations if tied
+    ## if location_accidents:
+    ##    most_accident_loc = max(location_accidents, key=location_accidents.get)
+    ##    print(f"\nLocation with most accidents: {most_accident_loc}")
+    ##    print(f"  {location_accidents[most_accident_loc]} accidents")
     
-    # Task 7: Location with most casualties
+    #  Location with most casualties #(corrected code to show multiple locations if tied)
     if location_casualties:
         max_casualties = max(location_casualties.values())
 
@@ -263,7 +258,7 @@ def analyse_locations_and_time(valid_records):
         for location in most_casualty_locations:
             print(f"  {location}: {max_casualties} casualties")
     
-    # Task 8: Time period with most accidents
+    #  Time period with most accidents
     time_period_counts = {}
     for record in valid_records:
         period = record["time_period"]
@@ -280,13 +275,13 @@ def analyse_locations_and_time(valid_records):
         print(f"  {max_count} accidents")
 
 
-# ---------------------------------------------------------
-# MENU OPTION 5: View invalid records
-# ---------------------------------------------------------
+
+# Menu option 5: View invalid records
+
 
 def view_invalid_records(invalid_records):
     """
-    Task 3: Display invalid records and reasons for rejection.
+     Display invalid records and reasons for rejection.
     """
     print("\n" + "=" * 60)
     print("INVALID RECORDS")
@@ -310,13 +305,13 @@ def view_invalid_records(invalid_records):
         print("-" * 40)
 
 
-# ---------------------------------------------------------
-# MENU OPTION 6: View safety summary
-# ---------------------------------------------------------
 
-def view_safety_summary(valid_records):
+# Menu option 6: View safety summary
+
+
+def view_safety_summary(valid_records):  ##########################to review further
     """
-    Task 4: Total accidents and total casualties.
+     Total accidents and total casualties.
     """
     print("\n" + "=" * 60)
     print("SAFETY SUMMARY")
@@ -326,12 +321,20 @@ def view_safety_summary(valid_records):
         print("No valid records available.")
         return
     
-    # Task 4: Total accidents and total casualties
+    #  Total accidents and total casualties
     total_accidents = len(valid_records)
     total_casualties = sum(record["casualties"] for record in valid_records)
-    
-    print(f"\nTotal accidents: {total_accidents}")
-    print(f"Total casualties: {total_casualties}")
+
+    print("\n" + "-" * 40)
+    print("ACCIDENT AND CASUALTY SUMMARY")
+    print("-" * 40)
+    print(f"Total Accidents             : {total_accidents:,}")
+    print(f"Total Casualties            : {total_casualties:,}")
+
+    # Average casualties per accident
+    average_casualties = total_casualties / total_accidents if total_accidents > 0 else 0
+    print(f"Average Casualties/Accident : {average_casualties:.2f}")
+    print("-" * 40)
     
     # Additional summary statistics
     print("\n" + "-" * 40)
@@ -369,80 +372,24 @@ def view_safety_summary(valid_records):
         print(f"    ({cause_counts[most_common_cause]} accidents)")
 
 
-# ---------------------------------------------------------
-# MAIN MENU LOOP
-# ---------------------------------------------------------
 
-def main():
-    """
-    Main function to run the program
-    """
-    try:
-        all_records = load_records(DATA_FILE)
-    except FileNotFoundError:
-        print(f"Error: File '{DATA_FILE}' not found.")
-        print("Please update the DATA_FILE variable with the correct path.")
-        return
-    except Exception as e:
-        print(f"Error loading file: {e}")
-        return
-    
-    print(f"\nLoaded {len(all_records)} records from {DATA_FILE}")
-    
-    valid_records, invalid_records = split_valid_invalid(all_records)
-    print(f"Valid records: {len(valid_records)}")
-    print(f"Invalid records: {len(invalid_records)}")
-    
-    while True:
-        print("\n" + "=" * 50)
-        print("Road Accidents Analysis Menu")
-        print("=" * 50)
-        print("1. View accident records")
-        print("2. Analyse severity")
-        print("3. Analyse causes")
-        print("4. Analyse locations and time periods")
-        print("5. View invalid records")
-        print("6. View safety summary")
-        print("7. Exit")
-        print("=" * 50)
-
-        choice = input("Enter your choice (1-7): ").strip()
-
-        if choice == "1":
-            view_accident_records(valid_records)
-        elif choice == "2":
-            analyse_severity(valid_records)
-        elif choice == "3":
-            analyse_causes(valid_records)
-        elif choice == "4":
-            analyse_locations_and_time(valid_records)
-        elif choice == "5":
-            view_invalid_records(invalid_records)
-        elif choice == "6":
-            view_safety_summary(valid_records)
-        elif choice == "7":
-            print("\nExiting program. Stay safe on the roads!")
-            break
-        else:
-            print("Invalid choice. Please enter a number between 1 and 7.")
-
-
-# ---------------------------------------------------------
-# SCRIPT EXECUTION
-# ---------------------------------------------------------
+# Run the Menu and display options and input section.
 
 all_records = load_records(DATA_FILE)
 valid_records, invalid_records = split_valid_invalid(all_records)
 
 while True:
-    print("\nRoad Accidents Analysis Menu")
+    print("\n" + "8" * 60) #added some formating of the title and menu options to make it more readable
+    print("ROAD ACCIDENTS ANALYSIS MENU") #capitalized the title of the menu to make it distinguishable from the menu options
+    print("8" * 60)#  footer of the menu options -> 888 - corresponding to group 8
     print("1. View accident records")
     print("2. Analyse severity")
     print("3. Analyse causes")
-    print("4. Analyse locations and time periods") # ANDREW TASK
+    print("4. Analyse locations and time periods") # ANDREW TASK (completed)
     print("5. View invalid records")
     print("6. View safety summary")
     print("7. Exit")
+    print("8" * 60) #separate the menu options from the input section to make it more readable
 
     choice = input("Enter your choice (1-7): ").strip()
 
@@ -458,12 +405,13 @@ while True:
         view_invalid_records(invalid_records)
     elif choice == "6":
         view_safety_summary(valid_records)
-    elif choice == "7":
-        print("Exiting program.")
+    elif choice == "7": # Exit the program leaving a goodbye message to the user
+        print("\nExiting program. Stay safe on the roads!")
+        print("Thank you for using the Road Accidents Analysis Program.")
+        print("\n" + "<" *22 + "88 Goodbye! 88" + ">" *22 + "\n") #added some formatting to the goodbye message 
         break
     else:
-        print("Invalid choice. Please enter a number between 1 and 7.")
+        print(f"\nInvalid choice '{choice}'. Please make a menu choice between 1 and 7.") # tested. #added new line to make the error message more readable and distinguishable from input options
+        # included the invalid choice in the error message to make it more informative for the user -acw
+        #adjusted the error message to make it more user-friendly and informative, guiding the user to select a valid option from the menu.
 
-
-
- 
