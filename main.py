@@ -326,7 +326,7 @@ def view_safety_summary(valid_records):  ##########################to review fur
     total_casualties = sum(record["casualties"] for record in valid_records)
 
     print("\n" + "-" * 40)
-    print("ACCIDENT AND CASUALTY SUMMARY")
+    print("ACCIDENT AND CASUALTY SUMMARY") # updates to be made by Andrew as discussed
     print("-" * 40)
     print(f"Total Accidents             : {total_accidents:,}")
     print(f"Total Casualties            : {total_casualties:,}")
