@@ -368,9 +368,9 @@ all_records = load_records(DATA_FILE)
 valid_records, invalid_records = split_valid_invalid(all_records)
 
 while True:
-    print("\n" + "+" * 60) #added some formating of the title and menu options to make it more readable
+    print("\n" + "8" * 60) #added some formating of the title and menu options to make it more readable
     print("ROAD ACCIDENTS ANALYSIS MENU") #capitalized the title of the menu to make it distinguishable from the menu options
-    print("+" * 60)#  footer of the menu options -> ++++++++++++
+    print("8" * 60)#  footer of the menu options -> 888 - corresponding to group 8
     print("1. View accident records")
     print("2. Analyse severity")
     print("3. Analyse causes")
@@ -378,7 +378,7 @@ while True:
     print("5. View invalid records")
     print("6. View safety summary")
     print("7. Exit")
-    print("+" * 60) #separate the menu options from the input section to make it more readable
+    print("8" * 60) #separate the menu options from the input section to make it more readable
 
     choice = input("Enter your choice (1-7): ").strip()
 
@@ -394,11 +394,13 @@ while True:
         view_invalid_records(invalid_records)
     elif choice == "6":
         view_safety_summary(valid_records)
-    elif choice == "7":
+    elif choice == "7": # Exit the program leaving a goodbye message to the user
         print("\nExiting program. Stay safe on the roads!")
         print("Thank you for using the Road Accidents Analysis Program.")
-        print("<" *24 + "+ Goodbye! +" + ">" *24) #added some formatting to the goodbye message 
+        print("\n" + "<" *22 + "88 Goodbye! 88" + ">" *22 + "\n") #added some formatting to the goodbye message 
         break
     else:
-        print("Invalid choice. Please enter a number between 1 and 7.") # tested.
+        print(f"\nInvalid choice '{choice}'. Please make a menu choice between 1 and 7.") # tested. #added new line to make the error message more readable and distinguishable from input options
+        # included the invalid choice in the error message to make it more informative for the user -acw
+        #adjusted the error message to make it more user-friendly and informative, guiding the user to select a valid option from the menu.
 
