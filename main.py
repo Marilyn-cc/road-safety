@@ -151,6 +151,8 @@ def analyse_severity(valid_records):
     
     # Display results
     print(f"\nTotal accidents: {total}")
+    total_casualties = sum(record["casualties"] for record in valid_records)
+    print(f"Total casualties: {total_casualties}")
     print("\nAccidents by severity:")
     for severity, count in sorted(severity_counts.items()):
         percentage = (count / total) * 100
@@ -238,11 +240,6 @@ def analyse_locations_and_time(valid_records):
     for location, casualties in sorted(location_casualties.items(), key=lambda x: x[1], reverse=True):
         print(f"  {location}: {casualties} casualties")
     
-    ##  Location with most accidents #Had an error which was corrected to show multiple locations if tied
-    ## if location_accidents:
-    ##    most_accident_loc = max(location_accidents, key=location_accidents.get)
-    ##    print(f"\nLocation with most accidents: {most_accident_loc}")
-    ##    print(f"  {location_accidents[most_accident_loc]} accidents")
     
     #  Location with most casualties #(corrected code to show multiple locations if tied)
     if location_casualties:
