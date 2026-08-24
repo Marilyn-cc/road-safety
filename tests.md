@@ -335,6 +335,95 @@ Accidents by severity:
 Fatal accidents: 6
 Percentage of fatal accidents: 33.33%
 
+### Safety Summary
+Updated the safety summary to show case everything rather than just the Total accidents
+### SAFETY SUMMARY
+
+
+
+1. GENERAL SUMMARY
+Total valid accidents       : 18
+Total casualties            : 34
+Total invalid records       : 2
+
+
+2. SEVERITY ANALYSIS
+Fatal: 6 accidents (33.3%)
+Minor: 6 accidents (33.3%)
+Serious: 6 accidents (33.3%)
+
+Fatal accidents            : 6
+Percentage of fatal cases  : 33.33%
+
+
+3. CAUSE ANALYSIS
+Speeding: 5 accidents (27.8%)
+Unsafe Overtaking: 4 accidents (22.2%)
+Pedestrian Crossing: 3 accidents (16.7%)
+Poor Visibility: 3 accidents (16.7%)
+Mechanical Failure: 3 accidents (16.7%)
+
+Most common cause(s):
+  Speeding: 5 accidents
+
+
+4. LOCATION ANALYSIS
+
+Location(s) with most accidents:
+  Mombasa Road: 4 accidents
+  Nakuru-Eldoret Rd: 4 accidents
+  Thika Road: 4 accidents
+
+Location(s) with most casualties:
+  Nakuru-Eldoret Rd: 12 casualties
+  Kisumu-Kakamega Rd: 12 casualties
+
+
+5. TIME PERIOD ANALYSIS
+
+Afternoon: 5 accidents (27.8%)
+Morning: 5 accidents (27.8%)
+Evening: 4 accidents (22.2%)
+Night: 4 accidents (22.2%)
+
+Time period(s) with most accidents:
+  Afternoon: 5 accidents
+  Morning: 5 accidents
+
+
+6. DATA VALIDATION SUMMARY
+
+Valid records   : 18
+Invalid records : 2
+
+Invalid records identified:
+  A007: Casualties cannot be negative
+  A014: Severity must be Minor, Serious, or Fatal
+
+### OVERALL SAFETY FINDINGS
+
+• 18 valid accidents were analysed.
+• A total of 34 casualties were recorded.
+
+• Severity:
+  Fatal accidents accounted for 33.33% of all valid accidents.
+
+• Leading cause:
+  Speeding (5 accidents)
+
+• Highest-risk location by accident count:
+  Mombasa Road (4 accidents)
+  Nakuru-Eldoret Rd (4 accidents)
+  Thika Road (4 accidents)
+
+• Location with the most casualties:
+  Nakuru-Eldoret Rd (12 casualties)
+  Kisumu-Kakamega Rd (12 casualties)
+
+• Busiest time period:
+  Afternoon (5 accidents)
+  Morning (5 accidents)
+
 
 ## 4. Conclusion
 

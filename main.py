@@ -306,67 +306,248 @@ def view_invalid_records(invalid_records):
 # Menu option 6: View safety summary
 
 
-def view_safety_summary(valid_records):  ##########################to review further
+def view_safety_summary(valid_records, invalid_records):
     """
-     Total accidents and total casualties.
+    Display an overall safety summary containing the main findings
+    from the accident records, severity, causes, locations,
+    time periods and validation results.
     """
+
     print("\n" + "=" * 60)
-    print("SAFETY SUMMARY") #work in progress
+    print("SAFETY SUMMARY")
     print("=" * 60)
-    
+
     if not valid_records:
         print("No valid records available.")
         return
-    
-    #  Total accidents and total casualties
+
+    # ---------------------------------------------------------
+    # 1. GENERAL ACCIDENT AND CASUALTY SUMMARY
+    # ---------------------------------------------------------
+
     total_accidents = len(valid_records)
-    total_casualties = sum(record["casualties"] for record in valid_records)
+    total_casualties = sum(
+        record["casualties"] for record in valid_records
+    )
 
-    print("\n" + "-" * 40)
-    print("ACCIDENT AND CASUALTY SUMMARY") 
-    print("-" * 40)
-    print(f"Total Accidents             : {total_accidents:,}")
-    print(f"Total Casualties            : {total_casualties:,}")
 
-    # Average casualties per accident
-    average_casualties = total_casualties / total_accidents if total_accidents > 0 else 0
-    print(f"Average Casualties/Accident : {average_casualties:.2f}")
-    print("-" * 40)
-    
-    # Additional summary statistics
-    print("\n" + "-" * 40)
-    print("Additional Statistics:")
-    
-    # Average casualties per accident
-    avg_casualties = total_casualties / total_accidents if total_accidents > 0 else 0
-    print(f"  Average casualties per accident: {avg_casualties:.2f}")
-    
-    # Severity breakdown
+    print("\n" + "-" * 60)
+    print("1. GENERAL SUMMARY")
+    print("-" * 60)
+
+    print(f"Total valid accidents       : {total_accidents}")
+    print(f"Total casualties            : {total_casualties}")
+    print(f"Total invalid records       : {len(invalid_records)}")
+
+
+    # ---------------------------------------------------------
+    # 2. SEVERITY ANALYSIS
+    # ---------------------------------------------------------
+
     severity_counts = {}
+
     for record in valid_records:
         severity = record["severity"]
         severity_counts[severity] = severity_counts.get(severity, 0) + 1
-    
-    print("  Severity breakdown:")
+
+    print("\n" + "-" * 60)
+    print("2. SEVERITY ANALYSIS")
+    print("-" * 60)
+
     for severity, count in sorted(severity_counts.items()):
         percentage = (count / total_accidents) * 100
-        print(f"    {severity}: {count} ({percentage:.1f}%)")
-    
-    # Fatal percentage
+        print(f"{severity}: {count} accidents ({percentage:.1f}%)")
+
     fatal_count = severity_counts.get("Fatal", 0)
     fatal_percentage = (fatal_count / total_accidents) * 100
-    print(f"  Fatal accident rate: {fatal_percentage:.1f}%")
-    
-    # Most common cause
+
+    print(f"\nFatal accidents            : {fatal_count}")
+    print(f"Percentage of fatal cases  : {fatal_percentage:.2f}%")
+
+
+    # ---------------------------------------------------------
+    # 3. CAUSE ANALYSIS
+    # ---------------------------------------------------------
+
     cause_counts = {}
+
     for record in valid_records:
         cause = record["cause"]
         cause_counts[cause] = cause_counts.get(cause, 0) + 1
-    
+
+    print("\n" + "-" * 60)
+    print("3. CAUSE ANALYSIS")
+    print("-" * 60)
+
+    for cause, count in sorted(
+        cause_counts.items(),
+        key=lambda x: x[1],
+        reverse=True
+    ):
+        percentage = (count / total_accidents) * 100
+        print(f"{cause}: {count} accidents ({percentage:.1f}%)")
+
     if cause_counts:
-        most_common_cause = max(cause_counts, key=cause_counts.get)
-        print(f"  Most common cause: {most_common_cause}")
-        print(f"    ({cause_counts[most_common_cause]} accidents)")
+        max_cause_count = max(cause_counts.values())
+
+        most_common_causes = [
+            cause
+            for cause, count in cause_counts.items()
+            if count == max_cause_count
+        ]
+
+        print("\nMost common cause(s):")
+
+        for cause in most_common_causes:
+            print(f"  {cause}: {max_cause_count} accidents")
+
+
+    # ---------------------------------------------------------
+    # 4. LOCATION ANALYSIS
+    # ---------------------------------------------------------
+
+    location_accidents = {}
+    location_casualties = {}
+
+    for record in valid_records:
+        location = record["location"]
+
+        location_accidents[location] = (
+            location_accidents.get(location, 0) + 1
+        )
+
+        location_casualties[location] = (
+            location_casualties.get(location, 0)
+            + record["casualties"]
+        )
+
+    print("\n" + "-" * 60)
+    print("4. LOCATION ANALYSIS")
+    print("-" * 60)
+
+    # Location with most accidents
+    max_location_accidents = max(location_accidents.values())
+
+    most_accident_locations = [
+        location
+        for location, count in location_accidents.items()
+        if count == max_location_accidents
+    ]
+
+    print("\nLocation(s) with most accidents:")
+
+    for location in most_accident_locations:
+        print(f"  {location}: {max_location_accidents} accidents")
+
+    # Location with most casualties
+    max_location_casualties = max(location_casualties.values())
+
+    most_casualty_locations = [
+        location
+        for location, casualties in location_casualties.items()
+        if casualties == max_location_casualties
+    ]
+
+    print("\nLocation(s) with most casualties:")
+
+    for location in most_casualty_locations:
+        print(f"  {location}: {max_location_casualties} casualties")
+
+
+    # ---------------------------------------------------------
+    # 5. TIME PERIOD ANALYSIS
+    # ---------------------------------------------------------
+
+    time_period_counts = {}
+
+    for record in valid_records:
+        period = record["time_period"]
+
+        time_period_counts[period] = (
+            time_period_counts.get(period, 0) + 1
+        )
+
+    print("\n" + "-" * 60)
+    print("5. TIME PERIOD ANALYSIS")
+    print("-" * 60)
+
+    for period, count in sorted(
+        time_period_counts.items(),
+        key=lambda x: x[1],
+        reverse=True
+    ):
+        percentage = (count / total_accidents) * 100
+        print(f"{period}: {count} accidents ({percentage:.1f}%)")
+
+    max_time_count = max(time_period_counts.values())
+
+    busiest_periods = [
+        period
+        for period, count in time_period_counts.items()
+        if count == max_time_count
+    ]
+
+    print("\nTime period(s) with most accidents:")
+
+    for period in busiest_periods:
+        print(f"  {period}: {max_time_count} accidents")
+
+
+    # ---------------------------------------------------------
+    # 6. INVALID RECORD SUMMARY
+    # ---------------------------------------------------------
+
+    print("\n" + "-" * 60)
+    print("6. DATA VALIDATION SUMMARY")
+    print("-" * 60)
+
+    print(f"Valid records   : {total_accidents}")
+    print(f"Invalid records : {len(invalid_records)}")
+
+    if invalid_records:
+        print("\nInvalid records identified:")
+
+        for record, reasons in invalid_records:
+            print(f"  {record['accident_id']}: ", end="")
+
+            print("; ".join(reasons))
+
+
+    # ---------------------------------------------------------
+    # 7. OVERALL SAFETY FINDINGS
+    # ---------------------------------------------------------
+
+    print("\n" + "=" * 60)
+    print("OVERALL SAFETY FINDINGS")
+    print("=" * 60)
+
+    print(f"\n• {total_accidents} valid accidents were analysed.")
+    print(f"• A total of {total_casualties} casualties were recorded.")
+
+    print("\n• Severity:")
+    print(
+        f"  Fatal accidents accounted for "
+        f"{fatal_percentage:.2f}% of all valid accidents."
+    )
+
+    if cause_counts:
+        print("\n• Leading cause:")
+        for cause in most_common_causes:
+            print(f"  {cause} ({max_cause_count} accidents)")
+
+    print("\n• Highest-risk location by accident count:")
+    for location in most_accident_locations:
+        print(f"  {location} ({max_location_accidents} accidents)")
+
+    print("\n• Location with the most casualties:")
+    for location in most_casualty_locations:
+        print(f"  {location} ({max_location_casualties} casualties)")
+
+    print("\n• Busiest time period:")
+    for period in busiest_periods:
+        print(f"  {period} ({max_time_count} accidents)")
+
+    print("\n" + "=" * 60)
 
 
 
@@ -401,7 +582,7 @@ while True:
     elif choice == "5":
         view_invalid_records(invalid_records)
     elif choice == "6":
-        view_safety_summary(valid_records)
+        view_safety_summary(valid_records, invalid_records)
     elif choice == "7": # Exit the program leaving a goodbye message to the user
         print("\nExiting program. Stay safe on the roads!")
         print("Thank you for using the Road Accidents Analysis Program.")
