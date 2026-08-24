@@ -3,7 +3,7 @@ Group 8 - Capstone Project (DSA 8103)
 Members: Christine, Emmanuel, Rehema, Marilyne, Andrew
 
 08_Road_Accidents - Menu-Driven Analysis Program
-User Core Python only (no external libraries)
+Use Core Python only (no external libraries)
 
 """
 
@@ -272,9 +272,7 @@ def analyse_locations_and_time(valid_records):
         print(f"  {max_count} accidents")
 
 
-
 # Menu option 5: View invalid records
-
 
 def view_invalid_records(invalid_records):
     """
@@ -302,9 +300,7 @@ def view_invalid_records(invalid_records):
         print("-" * 40)
 
 
-
 # Menu option 6: View safety summary
-
 
 def view_safety_summary(valid_records, invalid_records):
     """
@@ -321,9 +317,9 @@ def view_safety_summary(valid_records, invalid_records):
         print("No valid records available.")
         return
 
-    # ---------------------------------------------------------
+    #
     # 1. GENERAL ACCIDENT AND CASUALTY SUMMARY
-    # ---------------------------------------------------------
+    # 
 
     total_accidents = len(valid_records)
     total_casualties = sum(
@@ -340,9 +336,9 @@ def view_safety_summary(valid_records, invalid_records):
     print(f"Total invalid records       : {len(invalid_records)}")
 
 
-    # ---------------------------------------------------------
+    # 
     # 2. SEVERITY ANALYSIS
-    # ---------------------------------------------------------
+    # 
 
     severity_counts = {}
 
@@ -365,9 +361,9 @@ def view_safety_summary(valid_records, invalid_records):
     print(f"Percentage of fatal cases  : {fatal_percentage:.2f}%")
 
 
-    # ---------------------------------------------------------
+    # 
     # 3. CAUSE ANALYSIS
-    # ---------------------------------------------------------
+    # 
 
     cause_counts = {}
 
@@ -402,9 +398,9 @@ def view_safety_summary(valid_records, invalid_records):
             print(f"  {cause}: {max_cause_count} accidents")
 
 
-    # ---------------------------------------------------------
+    # 
     # 4. LOCATION ANALYSIS
-    # ---------------------------------------------------------
+    # 
 
     location_accidents = {}
     location_casualties = {}
@@ -454,9 +450,9 @@ def view_safety_summary(valid_records, invalid_records):
         print(f"  {location}: {max_location_casualties} casualties")
 
 
-    # ---------------------------------------------------------
+    # 
     # 5. TIME PERIOD ANALYSIS
-    # ---------------------------------------------------------
+    # 
 
     time_period_counts = {}
 
@@ -493,9 +489,9 @@ def view_safety_summary(valid_records, invalid_records):
         print(f"  {period}: {max_time_count} accidents")
 
 
-    # ---------------------------------------------------------
+    # 
     # 6. INVALID RECORD SUMMARY
-    # ---------------------------------------------------------
+    # 
 
     print("\n" + "-" * 60)
     print("6. DATA VALIDATION SUMMARY")
@@ -513,9 +509,9 @@ def view_safety_summary(valid_records, invalid_records):
             print("; ".join(reasons))
 
 
-    # ---------------------------------------------------------
+    # 
     # 7. OVERALL SAFETY FINDINGS
-    # ---------------------------------------------------------
+    # 
 
     print("\n" + "=" * 60)
     print("OVERALL SAFETY FINDINGS")
@@ -550,8 +546,7 @@ def view_safety_summary(valid_records, invalid_records):
     print("\n" + "=" * 60)
 
 
-
-# Run the Menu and display options and input section.
+# RUN THE MENU AND DISPLAY OPTIONS AND INPUT SECTION.
 
 all_records = load_records(DATA_FILE)
 valid_records, invalid_records = split_valid_invalid(all_records)
@@ -593,4 +588,3 @@ while True:
         # included the invalid choice in the error message to make it more informative for the user -acw
         #adjusted the error message to make it more user-friendly and informative, guiding the user to select a valid option from the menu.
         #"\n\033[31m message \033[0m" in print makes the output red in color to make it more distinguishable from the menu options and other outputs.
-
