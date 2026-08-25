@@ -99,30 +99,46 @@ def split_valid_invalid(records):
 
 
 # Menu option 1: Function to display accident records_______________
-
 def view_accident_records(valid_records):
     """
-    Display all valid accident records in a readable format
+    Display all valid accident records in a clear table format.
     """
-    print("\n" + "=" * 60)
-    print("ACCIDENT RECORDS")
-    print("=" * 60)
-    
+    print("\n" + "=" * 130)
+    print("                              ACCIDENT RECORDS")
+    print("=" * 130)
+
     if not valid_records:
         print("No valid records to display.")
         return
-    
-    for i, record in enumerate(valid_records, 1):
-        print(f"\nRecord {i}:")
-        print(f"  Accident ID: {record['accident_id']}")
-        print(f"  Location: {record['location']}")
-        print(f"  County: {record['county']}")
-        print(f"  Time Period: {record['time_period']}")
-        print(f"  Cause: {record['cause']}")
-        print(f"  Severity: {record['severity']}")
-        print(f"  Vehicles Involved: {record['vehicles_involved']}")
-        print(f"  Casualties: {record['casualties']}")
-        print("-" * 40)
+
+    # Table headings
+    print(
+        f"{'ID':<8} "
+        f"{'Location':<24} "
+        f"{'County':<15} "
+        f"{'Time Period':<16} "
+        f"{'Cause':<25} "
+        f"{'Severity':<12} "
+        f"{'Vehicles':<10} "
+        f"{'Casualties':<10}"
+    )
+
+    print("-" * 130)
+
+    # Display each record
+    for record in valid_records:
+        print(
+            f"{record['accident_id']:<8} "
+            f"{record['location']:<24} "
+            f"{record['county']:<15} "
+            f"{record['time_period']:<16} "
+            f"{record['cause']:<25} "
+            f"{record['severity']:<12} "
+            f"{record['vehicles_involved']:<10} "
+            f"{record['casualties']:<10}"
+        )
+
+    print("=" * 130)
 
 
 
@@ -203,7 +219,6 @@ def analyse_causes(valid_records):
 
 
 # Menu option 4: Analyse locations and time periods
-
 def analyse_locations_and_time(valid_records):
     """
      Location with most accidents, location with most casualties.
