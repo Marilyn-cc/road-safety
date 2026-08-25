@@ -307,8 +307,35 @@ Additional Statistics:
 Enter your choice (1-7): 9
 Invalid choice. Please enter a number between 1 and 7.
 
+updated the invalid choice message to be: 
+Invalid choice '{choice}'. Please make a menu choice between 1 and 7."
+
 
 # After Testing 
+Changed the view accident records to be displayed in form of a table.
+ACCIDENT RECORDS
+ID     Location              County       Time Period    Cause                   Severity   Vehicles  Casualties
+
+A001   Mombasa Road          Kiambu       Afternoon      Unsafe Overtaking       Serious    2         1         
+A002   Waiyaki Way           Nakuru       Evening        Pedestrian Crossing     Fatal      3         2         
+A003   Nakuru-Eldoret Rd     Kisumu       Night          Poor Visibility         Minor      4         3         
+A004   Kisumu-Kakamega Rd    Kajiado      Morning        Mechanical Failure      Serious    1         4         
+A005   Thika Road            Nairobi      Afternoon      Speeding                Fatal      2         0         
+A006   Mombasa Road          Kiambu       Evening        Unsafe Overtaking       Minor      3         1         
+A008   Nakuru-Eldoret Rd     Kisumu       Morning        Poor Visibility         Fatal      1         3         
+A009   Kisumu-Kakamega Rd    Kajiado      Afternoon      Mechanical Failure      Minor      2         4         
+A010   Thika Road            Nairobi      Evening        Speeding                Serious    3         0         
+A011   Mombasa Road          Kiambu       Night          Unsafe Overtaking       Fatal      4         1         
+A012   Waiyaki Way           Nakuru       Morning        Pedestrian Crossing     Minor      1         2         
+A013   Nakuru-Eldoret Rd     Kisumu       Afternoon      Poor Visibility         Serious    2         3         
+A015   Thika Road            Nairobi      Night          Speeding                Minor      4         0         
+A016   Mombasa Road          Kiambu       Morning        Unsafe Overtaking       Serious    1         1         
+A017   Waiyaki Way           Nakuru       Afternoon      Pedestrian Crossing     Fatal      2         2         
+A018   Nakuru-Eldoret Rd     Kisumu       Evening        Speeding                Minor      3         3         
+A019   Kisumu-Kakamega Rd    Kajiado      Night          Mechanical Failure      Serious    4         4         
+A020   Thika Road            Nairobi      Morning        Speeding                Fatal      1         0 
+
+
 We discovered that option 4 shows only one location with most casualties when in reality there were two locations with the most casualties so we corrected the function.
 
 ### LOCATION AND TIME PERIOD ANALYSIS
@@ -317,6 +344,109 @@ We discovered that option 4 shows only one location with most casualties when in
 Location(s) with most casualties:
   Nakuru-Eldoret Rd: 12 casualties
   Kisumu-Kakamega Rd: 12 casualties
+
+### Severity Analysis 
+Included total casualties as output
+
+Total accidents: 18
+Total casualties: 34
+
+Accidents by severity:
+  Fatal: 6 (33.3%)
+  Minor: 6 (33.3%)
+  Serious: 6 (33.3%)
+
+Fatal accidents: 6
+Percentage of fatal accidents: 33.33%
+
+### Safety Summary
+Updated the safety summary to show case everything rather than just the Total accidents
+### SAFETY SUMMARY
+
+
+
+1. GENERAL SUMMARY
+Total valid accidents       : 18
+Total casualties            : 34
+Total invalid records       : 2
+
+
+2. SEVERITY ANALYSIS
+Fatal: 6 accidents (33.3%)
+Minor: 6 accidents (33.3%)
+Serious: 6 accidents (33.3%)
+
+Fatal accidents            : 6
+Percentage of fatal cases  : 33.33%
+
+
+3. CAUSE ANALYSIS
+Speeding: 5 accidents (27.8%)
+Unsafe Overtaking: 4 accidents (22.2%)
+Pedestrian Crossing: 3 accidents (16.7%)
+Poor Visibility: 3 accidents (16.7%)
+Mechanical Failure: 3 accidents (16.7%)
+
+Most common cause(s):
+  Speeding: 5 accidents
+
+
+4. LOCATION ANALYSIS
+
+Location(s) with most accidents:
+  Mombasa Road: 4 accidents
+  Nakuru-Eldoret Rd: 4 accidents
+  Thika Road: 4 accidents
+
+Location(s) with most casualties:
+  Nakuru-Eldoret Rd: 12 casualties
+  Kisumu-Kakamega Rd: 12 casualties
+
+
+5. TIME PERIOD ANALYSIS
+
+Afternoon: 5 accidents (27.8%)
+Morning: 5 accidents (27.8%)
+Evening: 4 accidents (22.2%)
+Night: 4 accidents (22.2%)
+
+Time period(s) with most accidents:
+  Afternoon: 5 accidents
+  Morning: 5 accidents
+
+
+6. DATA VALIDATION SUMMARY
+
+Valid records   : 18
+Invalid records : 2
+
+Invalid records identified:
+  A007: Casualties cannot be negative
+  A014: Severity must be Minor, Serious, or Fatal
+
+### OVERALL SAFETY FINDINGS
+
+• 18 valid accidents were analysed.
+• A total of 34 casualties were recorded.
+
+• Severity:
+  Fatal accidents accounted for 33.33% of all valid accidents.
+
+• Leading cause:
+  Speeding (5 accidents)
+
+• Highest-risk location by accident count:
+  Mombasa Road (4 accidents)
+  Nakuru-Eldoret Rd (4 accidents)
+  Thika Road (4 accidents)
+
+• Location with the most casualties:
+  Nakuru-Eldoret Rd (12 casualties)
+  Kisumu-Kakamega Rd (12 casualties)
+
+• Busiest time period:
+  Afternoon (5 accidents)
+  Morning (5 accidents)
 
 
 ## 4. Conclusion
