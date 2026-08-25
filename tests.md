@@ -312,6 +312,30 @@ Invalid choice '{choice}'. Please make a menu choice between 1 and 7."
 
 
 # After Testing 
+Changed the view accident records to be displayed in form of a table.
+ACCIDENT RECORDS
+ID     Location              County       Time Period    Cause                   Severity   Vehicles  Casualties
+
+A001   Mombasa Road          Kiambu       Afternoon      Unsafe Overtaking       Serious    2         1         
+A002   Waiyaki Way           Nakuru       Evening        Pedestrian Crossing     Fatal      3         2         
+A003   Nakuru-Eldoret Rd     Kisumu       Night          Poor Visibility         Minor      4         3         
+A004   Kisumu-Kakamega Rd    Kajiado      Morning        Mechanical Failure      Serious    1         4         
+A005   Thika Road            Nairobi      Afternoon      Speeding                Fatal      2         0         
+A006   Mombasa Road          Kiambu       Evening        Unsafe Overtaking       Minor      3         1         
+A008   Nakuru-Eldoret Rd     Kisumu       Morning        Poor Visibility         Fatal      1         3         
+A009   Kisumu-Kakamega Rd    Kajiado      Afternoon      Mechanical Failure      Minor      2         4         
+A010   Thika Road            Nairobi      Evening        Speeding                Serious    3         0         
+A011   Mombasa Road          Kiambu       Night          Unsafe Overtaking       Fatal      4         1         
+A012   Waiyaki Way           Nakuru       Morning        Pedestrian Crossing     Minor      1         2         
+A013   Nakuru-Eldoret Rd     Kisumu       Afternoon      Poor Visibility         Serious    2         3         
+A015   Thika Road            Nairobi      Night          Speeding                Minor      4         0         
+A016   Mombasa Road          Kiambu       Morning        Unsafe Overtaking       Serious    1         1         
+A017   Waiyaki Way           Nakuru       Afternoon      Pedestrian Crossing     Fatal      2         2         
+A018   Nakuru-Eldoret Rd     Kisumu       Evening        Speeding                Minor      3         3         
+A019   Kisumu-Kakamega Rd    Kajiado      Night          Mechanical Failure      Serious    4         4         
+A020   Thika Road            Nairobi      Morning        Speeding                Fatal      1         0 
+
+
 We discovered that option 4 shows only one location with most casualties when in reality there were two locations with the most casualties so we corrected the function.
 
 ### LOCATION AND TIME PERIOD ANALYSIS
