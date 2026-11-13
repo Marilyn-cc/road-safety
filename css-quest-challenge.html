@@ -1,0 +1,577 @@
+<title>CSS Quest Challenge</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout concept: the same chunky sticker workbench as CSS Quest, with ten levels
+   in a strip on top, mission and code editor on the left, live preview and goals
+   on the right. No hint or answer buttons. */
+:root{
+  --bg:#EEF3FF; --surface:#FFFFFF; --ink:#1C2150; --muted:#566090;
+  --line:#1C2150; --soft-line:#C7CFF3; --chip:#E2E8FF;
+  --accent:#FF7A59; --on-accent:#1C2150; --star:#FFC933;
+  --good:#0E8F6E; --good-bg:#D9F5EA;
+  --warn-bg:#FFF1C2; --warn-ink:#6B4A00;
+  --code-bg:#1C2150; --code-fg:#F2F4FF; --code-dim:#9AA2E8;
+  --f-display:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-code:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11142B; --surface:#1B2045; --ink:#EEF0FF; --muted:#A7AEE0;
+    --line:#6A73D6; --soft-line:#2F3678; --chip:#2A3068;
+    --good:#4ADBB0; --good-bg:#12392F;
+    --warn-bg:#3A3110; --warn-ink:#FFD97A;
+    --code-bg:#0B0D20;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11142B; --surface:#1B2045; --ink:#EEF0FF; --muted:#A7AEE0;
+  --line:#6A73D6; --soft-line:#2F3678; --chip:#2A3068;
+  --good:#4ADBB0; --good-bg:#12392F;
+  --warn-bg:#3A3110; --warn-ink:#FFD97A;
+  --code-bg:#0B0D20;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--f-body); font-size:16px; line-height:1.5; margin:0;
+  padding-block:20px 40px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+.app{max-width:1120px; margin:0 auto; display:flex; flex-direction:column; gap:20px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--f-display); text-wrap:balance}
+code,pre,kbd{font-family:var(--f-code)}
+:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+
+.top{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px 20px}
+.brand{display:flex; align-items:center; gap:12px; min-width:0}
+.logo{
+  width:46px; height:46px; display:grid; place-items:center; flex:none;
+  background:var(--accent); color:var(--on-accent);
+  border:2.5px solid var(--line); border-radius:12px; box-shadow:3px 3px 0 var(--line);
+  font:700 19px var(--f-code); letter-spacing:-1px;
+}
+.brand h1{font-size:30px; line-height:1.05; font-weight:700}
+.brand p{color:var(--muted); font-size:14px; font-weight:700}
+.score{
+  display:flex; align-items:center; gap:8px; padding:6px 14px 6px 10px;
+  background:var(--surface); border:2.5px solid var(--line); border-radius:999px;
+  font-weight:800; font-variant-numeric:tabular-nums;
+}
+.score svg{width:24px; height:24px; fill:var(--star); stroke:var(--line); stroke-width:1.5; stroke-linejoin:round}
+.score.pop svg{animation:pop .5s ease}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.5) rotate(-12deg)}100%{transform:scale(1)}}
+
+.steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(84px,1fr)); gap:10px 8px; margin:0; padding:0; list-style:none}
+.step{
+  position:relative; width:100%; display:flex; flex-direction:column; align-items:center;
+  padding:6px 4px 7px; background:var(--surface); color:var(--ink);
+  border:2.5px solid var(--line); border-radius:12px; cursor:pointer; font-family:var(--f-body);
+}
+.step .n{font:700 20px/1.1 var(--f-display)}
+.step .t{font-size:13px; font-weight:800; color:var(--muted); white-space:nowrap}
+.step:hover{background:var(--chip)}
+.step.done{background:var(--good-bg)}
+.step.done::after{
+  content:"\2605"; position:absolute; top:-9px; right:-7px; width:22px; height:22px;
+  display:grid; place-items:center; background:var(--star); color:var(--ink);
+  border:2px solid var(--line); border-radius:50%; font-size:12px; line-height:1;
+}
+.step[aria-current="true"]{background:var(--accent); color:var(--on-accent); box-shadow:3px 3px 0 var(--line)}
+.step[aria-current="true"] .t{color:var(--on-accent)}
+
+.work{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; align-items:start}
+.col{display:flex; flex-direction:column; gap:18px; min-width:0}
+.plain{background:var(--surface); border:1.5px solid var(--soft-line); border-radius:16px; padding:18px 20px}
+.eyebrow{font:700 12px var(--f-code); letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.mission h2{font-size:28px; line-height:1.15; margin:4px 0 8px}
+.mission p{max-width:62ch}
+.sels{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:14px; font-weight:800; font-size:14px}
+.sels code{background:var(--chip); padding:3px 9px; border-radius:8px; font-size:14px; font-weight:700}
+
+.panel{background:var(--surface); border:2.5px solid var(--line); border-radius:16px; box-shadow:5px 5px 0 var(--line); overflow:hidden}
+.panel-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:8px 14px; border-bottom:2.5px solid var(--line); font:700 13px var(--f-code);
+}
+.panel-head span:last-child{color:var(--muted); font-family:var(--f-body); font-weight:700}
+#stage{display:block; contain:layout paint}
+
+.editor{background:var(--code-bg); color:var(--code-fg)}
+.editor .panel-head{color:var(--code-fg)}
+.editor .panel-head span:last-child{color:var(--code-dim)}
+#code{
+  display:block; width:100%; min-height:230px; resize:vertical; border:0; outline:0;
+  background:transparent; color:var(--code-fg); padding:14px 16px;
+  font:500 16px/1.65 var(--f-code); tab-size:2; white-space:pre; overflow:auto;
+}
+.editor:focus-within{outline:3px solid var(--accent); outline-offset:2px}
+.tip{padding:0 16px 12px; font-size:12.5px; color:var(--code-dim)}
+.tip kbd{border:1px solid var(--code-dim); border-radius:4px; padding:0 4px}
+.helper{padding:10px 16px; background:var(--warn-bg); color:var(--warn-ink); font-weight:800; font-size:14px}
+.helper p+p{margin-top:4px}
+
+.btn{
+  font:800 15px var(--f-body); padding:9px 15px; cursor:pointer;
+  border:2.5px solid var(--line); border-radius:12px; background:var(--surface); color:var(--ink);
+  box-shadow:2px 2px 0 var(--line); transition:transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover{transform:translate(-1px,-1px); box-shadow:3px 3px 0 var(--line)}
+.btn:active{transform:translate(2px,2px); box-shadow:0 0 0 var(--line)}
+.btn.primary{background:var(--accent); color:var(--on-accent)}
+.actions{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+.actions small{color:var(--muted); font-weight:800}
+.editor-wrap{display:flex; flex-direction:column; gap:12px; min-width:0}
+
+.goals h3{font-size:20px; margin-bottom:10px}
+.goal-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
+.goal-list li{display:flex; align-items:flex-start; gap:10px; font-weight:800}
+.tick{
+  flex:none; width:26px; height:26px; margin-top:-1px; display:grid; place-items:center;
+  border:2.5px solid var(--line); border-radius:50%; background:transparent; color:transparent;
+  transition:background-color .2s ease, color .2s ease;
+}
+.tick svg{width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round}
+.met .tick{background:var(--good); border-color:var(--good); color:#fff}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.win{
+  margin-top:14px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:10px 14px; background:var(--good-bg); border:2px solid var(--good); border-radius:12px;
+}
+.win strong{font:700 18px var(--f-display)}
+.win p{font-size:14px; font-weight:700}
+
+@media (max-width:860px){
+  .work{grid-template-columns:minmax(0,1fr); gap:18px}
+  .col{display:contents}
+  .mission{order:1} .preview{order:2} .goals{order:3} .editor-wrap{order:4}
+  .brand h1{font-size:26px}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important; transition:none!important}
+}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">{ }</div>
+      <div>
+        <h1>CSS Quest Online Challenge </h1>
+      </div>
+    </div>
+    <div class="score" id="score" aria-live="polite">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg>
+      <span><b id="count">0</b> of <span id="total">10</span> levels</span>
+    </div>
+  </header>
+
+  <nav aria-label="Levels"><ol class="steps" id="steps"></ol></nav>
+
+  <main class="work">
+    <div class="col">
+      <section class="plain mission" id="mission" aria-live="polite">
+        <div class="eyebrow" id="lvlNo"></div>
+        <h2 id="lvlName"></h2>
+        <p id="lvlStory"></p>
+        <div class="sels" id="sels"></div>
+      </section>
+
+      <section class="editor-wrap">
+        <div class="panel editor">
+          <div class="panel-head"><span>style.css</span><span>Type your CSS here</span></div>
+          <label class="sr" for="code">CSS code editor</label>
+          <textarea id="code" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" rows="10"></textarea>
+          <div class="tip">Tab adds spaces. To leave the box with the keyboard, press <kbd>Esc</kbd> then <kbd>Tab</kbd>.</div>
+          <div class="helper" id="helper" hidden aria-live="polite"></div>
+        </div>
+        <div class="actions">
+          <button class="btn" id="resetBtn" type="button">Start over</button>
+          <small>Stuck? Skip ahead using the level strip and come back later.</small>
+        </div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="panel preview">
+        <div class="panel-head"><span>Live preview</span><span>Updates as you type</span></div>
+        <div id="stage"></div>
+      </section>
+
+      <section class="plain goals">
+        <h3>Your goals</h3>
+        <ul class="goal-list" id="goals"></ul>
+        <div class="win" id="win" hidden>
+          <div>
+            <strong id="winTitle">Level complete!</strong>
+            <p id="winText"></p>
+          </div>
+          <button class="btn primary" id="nextBtn" type="button">Next level</button>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $ = function(id){ return document.getElementById(id); };
+
+/* ---------- colour helpers ---------- */
+var cv = document.createElement('canvas'); cv.width = cv.height = 1;
+var g2 = cv.getContext('2d', {willReadFrequently:true});
+function rgba(str){
+  g2.clearRect(0,0,1,1); g2.fillStyle = '#000'; g2.fillStyle = str; g2.fillRect(0,0,1,1);
+  var d = g2.getImageData(0,0,1,1).data; return [d[0],d[1],d[2],d[3]/255];
+}
+function hsl(str){
+  var c = rgba(str), r=c[0]/255, g=c[1]/255, b=c[2]/255;
+  var mx=Math.max(r,g,b), mn=Math.min(r,g,b), l=(mx+mn)/2, d=mx-mn, h=0, s=0;
+  if(d>0){
+    s = d/(1-Math.abs(2*l-1));
+    if(mx===r) h=((g-b)/d)%6; else if(mx===g) h=(b-r)/d+2; else h=(r-g)/d+4;
+    h*=60; if(h<0) h+=360;
+  }
+  return {h:h,s:s,l:l,a:c[3]};
+}
+function isBlue(c){ var x=hsl(c); return x.a>.5 && x.h>=195 && x.h<=265 && x.s>.35; }
+function isGreen(c){ var x=hsl(c); return x.a>.5 && x.h>=85 && x.h<=165 && x.s>.3; }
+function isRed(c){ var x=hsl(c); return x.a>.5 && (x.h<=14 || x.h>=346) && x.s>.5 && x.l>.25 && x.l<.75; }
+function isDark(c){ var x=hsl(c); return x.a>.5 && x.l<.35; }
+function isLight(c){ var x=hsl(c); return x.l>.85; }
+function isGrey(c){ var x=hsl(c); return x.a>.5 && x.s<.2 && x.l>.3 && x.l<.85; }
+
+/* ---------- preview (shadow DOM keeps student CSS away from the page) ---------- */
+var host = $('stage');
+var root = host.attachShadow({mode:'open'});
+root.innerHTML =
+  '<style>:host{display:block}.canvas{box-sizing:border-box;min-height:260px;padding:22px;background:#fff;color:#222;' +
+  'font-family:"Nunito",system-ui,sans-serif;font-size:17px;line-height:1.45}</style>' +
+  '<style id="base"></style><style id="user"></style><div class="canvas" id="canvas"></div>';
+var baseEl = root.getElementById('base');
+var userEl = root.getElementById('user');
+var canvas = root.getElementById('canvas');
+canvas.addEventListener('click', function(e){ if(e.target.closest && e.target.closest('a')) e.preventDefault(); });
+canvas.addEventListener('submit', function(e){ e.preventDefault(); });
+
+function q(sel){ return canvas.querySelector(sel); }
+function all(sel){ return Array.prototype.slice.call(canvas.querySelectorAll(sel)); }
+function S(sel, prop){ var e=q(sel); return e ? getComputedStyle(e)[prop] : ''; }
+function px(v){ return parseFloat(v) || 0; }
+function R(sel){ var e=q(sel); return e ? e.getBoundingClientRect() : null; }
+function inner(el){
+  var r=el.getBoundingClientRect(), s=getComputedStyle(el);
+  var l = r.left + px(s.borderLeftWidth) + px(s.paddingLeft);
+  var rr = r.right - px(s.borderRightWidth) - px(s.paddingRight);
+  return {left:l, right:rr, width:rr-l};
+}
+function radiusPx(sel){
+  var e=q(sel); if(!e) return 0;
+  var v = getComputedStyle(e).borderTopLeftRadius.split(' ')[0];
+  var r = e.getBoundingClientRect(), m = Math.min(r.width, r.height);
+  return v.slice(-1)==='%' ? parseFloat(v)*m/100 : px(v);
+}
+function userRules(){ try{ return Array.prototype.slice.call(userEl.sheet.cssRules); }catch(e){ return []; } }
+function rule(rx, test){
+  return userRules().some(function(r){ return r.selectorText && rx.test(r.selectorText) && test(r.style); });
+}
+function bgOf(s){ return s.getPropertyValue('background-color') || s.getPropertyValue('background'); }
+
+/* ---------- levels ---------- */
+var STUB = '/* Your CSS goes here */\n\n';
+var LEVELS = [
+{
+  id:'paint', short:'Paint', name:'Paint the page',
+  story:'Give the title a blue colour and the tagline a green one. Then put both in the middle of the page.',
+  sels:['h1','.tagline'],
+  html:'<h1>Fresh Mart</h1><p class="tagline">Snacks delivered fast</p>', base:'',
+  goals:[
+    {t:'Make the title blue', ok:function(){ return isBlue(S('h1','color')); }},
+    {t:'Make the tagline green', ok:function(){ return isGreen(S('.tagline','color')); }},
+    {t:'Centre both the title and the tagline', ok:function(){ return S('h1','textAlign')==='center' && S('.tagline','textAlign')==='center'; }}
+  ]
+},
+{
+  id:'card', short:'Card', name:'Build a product card',
+  story:'Turn the plain box into a proper product card: a coloured background, room inside, rounded corners and a soft shadow underneath.',
+  sels:['.card'],
+  html:'<div class="card"><h2 style="margin:0 0 6px">Mango</h2><p style="margin:0">KSh 30</p></div>',
+  base:'.card{width:min(100%,260px)}',
+  goals:[
+    {t:'Give the card a background colour (not white)', ok:function(){ var c=rgba(S('.card','backgroundColor')); return c[3]>.5 && !(c[0]>245&&c[1]>245&&c[2]>245); }},
+    {t:'Add at least 20px of space inside the card', ok:function(){ return px(S('.card','paddingTop'))>=20 && px(S('.card','paddingLeft'))>=20; }},
+    {t:'Round the corners by 14px or more', ok:function(){ return radiusPx('.card')>=14; }},
+    {t:'Add a shadow under the card', ok:function(){ var v=S('.card','boxShadow'); return !!v && v!=='none'; }}
+  ]
+},
+{
+  id:'type', short:'Type', name:'Make the words speak up',
+  story:'The title should be huge. The subtitle should be big and heavy. The note should be slanted and grey.',
+  sels:['h1','.sub','.note'],
+  html:'<h1>Robot Club</h1><p class="sub">Open every Saturday</p><p class="note">Bring your own snacks</p>', base:'',
+  goals:[
+    {t:'Make the title 48px or bigger', ok:function(){ return px(S('h1','fontSize'))>=48; }},
+    {t:'Make the subtitle 24px or bigger and bold', ok:function(){ return px(S('.sub','fontSize'))>=24 && parseInt(S('.sub','fontWeight'),10)>=700; }},
+    {t:'Make the note slanted and grey', ok:function(){ return S('.note','fontStyle')==='italic' && isGrey(S('.note','color')); }}
+  ]
+},
+{
+  id:'space', short:'Space', name:'Room to breathe',
+  story:'Give the boxes space inside, leave a gap between them and centre them on the page.',
+  sels:['.box'],
+  html:'<div class="box">Box one</div><div class="box">Box two</div>',
+  base:'.box{width:220px;background:#DDE6FF;font-weight:700;border:2px solid #1C2150}',
+  goals:[
+    {t:'Add at least 20px of space inside each box', ok:function(){ var b=all('.box'); return b.length>1 && b.every(function(e){ var s=getComputedStyle(e); return px(s.paddingTop)>=20 && px(s.paddingLeft)>=20; }); }},
+    {t:'Leave a gap of 24px or more between the boxes', ok:function(){ var b=all('.box'); if(b.length<2) return false; return b[1].getBoundingClientRect().top - b[0].getBoundingClientRect().bottom >= 23.5; }},
+    {t:'Centre the boxes on the page', ok:function(){
+      var b=all('.box'), c=inner(canvas); if(!b.length) return false;
+      return b.every(function(e){ var r=e.getBoundingClientRect(); return r.width<c.width-5 && Math.abs((r.left-c.left)-(c.width-r.width)/2)<2.5; });
+    }}
+  ]
+},
+{
+  id:'row', short:'Row', name:'Line them up',
+  story:'Get the four tiles into one row, centred both ways inside the grey strip, with space between them.',
+  sels:['.row','.item'],
+  html:'<div class="row"><div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div></div>',
+  base:'.row{height:150px;background:#EEF1FF;border-radius:12px}.item{width:64px;height:64px;display:grid;place-items:center;font-weight:800;color:#1C2150;border-radius:10px}.item:nth-child(1){background:#FF9F1C}.item:nth-child(2){background:#FF5FA2}.item:nth-child(3){background:#17B3A3}.item:nth-child(4){background:#FFD166}',
+  goals:[
+    {t:'Put all four tiles in one row', ok:function(){ var it=all('.item'); if(it.length<4) return false; var t0=it[0].getBoundingClientRect().top; return it.every(function(e){ return Math.abs(e.getBoundingClientRect().top-t0)<1.5; }); }},
+    {t:'Leave at least 16px between the tiles', ok:function(){ var it=all('.item'); if(it.length<4) return false; for(var i=1;i<it.length;i++){ var a=it[i-1].getBoundingClientRect(), b=it[i].getBoundingClientRect(); if(Math.abs(a.top-b.top)>1.5 || b.left-a.right<15.5) return false; } return true; }},
+    {t:'Centre the tiles left to right', ok:function(){ var it=all('.item'), row=R('.row'); if(it.length<4||!row) return false; var f=it[0].getBoundingClientRect(), l=it[it.length-1].getBoundingClientRect(); return Math.abs((f.left-row.left)-(row.right-l.right))<2.5 && f.left-row.left>5; }},
+    {t:'Centre the tiles top to bottom', ok:function(){ var it=all('.item'), row=R('.row'); if(it.length<4||!row) return false; var cy=row.top+row.height/2; return it.every(function(e){ var r=e.getBoundingClientRect(); return Math.abs(r.top+r.height/2-cy)<2.5; }); }}
+  ]
+},
+{
+  id:'button', short:'Button', name:'A button that reacts',
+  story:'Make the button feel alive: show a hand when the mouse is over it, make changes happen smoothly, and make something happen when the mouse touches it. On a phone, press and hold the button to see it.',
+  sels:['.btn','.btn:hover'],
+  html:'<button class="btn" type="button">Add to cart</button>',
+  base:'.btn{font:inherit;font-weight:800;padding:12px 22px;border:0;border-radius:12px;background:#1C2150;color:#fff}',
+  goals:[
+    {t:'Show a pointing hand over the button', ok:function(){ return S('.btn','cursor')==='pointer'; }},
+    {t:'Make changes smooth, not instant', ok:function(){ var d=S('.btn','transitionDuration'); return !!d && d!=='0s' && parseFloat(d)>0; }},
+    {t:'Change the background colour when hovered', ok:function(){ return rule(/\.btn\s*:hover|button\s*:hover/, bgOf); }},
+    {t:'Lift the button upwards when hovered', ok:function(){ return rule(/\.btn\s*:hover|button\s*:hover/, function(s){ return /translate(Y)?\(\s*(0(px)?\s*,\s*)?-\s*[\d.]/.test(s.getPropertyValue('transform')); }); }}
+  ]
+},
+{
+  id:'menu', short:'Menu', name:'Build the menu bar',
+  story:'Shop name on the left and links on the right, all lined up. The links must look like menu links, and react when touched.',
+  sels:['.bar','a','a:hover'],
+  html:'<header class="bar"><h1>Fresh Mart</h1><nav><a href="#">Shop</a><a href="#">Cart</a></nav></header>',
+  base:'.bar{background:#1C2150;color:#fff;padding:14px 20px;border-radius:12px}h1{margin:0;font-size:20px}a{color:#9AA2E8}',
+  goals:[
+    {t:'Make the bar a flex row', ok:function(){ var d=S('.bar','display'); return d==='flex'||d==='inline-flex'; }},
+    {t:'Name on the far left, links on the far right', ok:function(){ var b=R('.bar'),h=R('h1'),n=R('nav'); if(!b||!h||!n) return false; return h.left-b.left<60 && b.right-n.right<60 && n.left-h.right>30; }},
+    {t:'Make the links white with no underline', ok:function(){ var a=all('a'); return a.length>1 && a.every(function(e){ var s=getComputedStyle(e); return s.textDecorationLine==='none' && isLight(s.color); }); }},
+    {t:'Leave at least 16px between the links', ok:function(){ var a=all('a'); if(a.length<2) return false; return a[1].getBoundingClientRect().left-a[0].getBoundingClientRect().right>=15.5; }},
+    {t:'Line up the name and the links vertically', ok:function(){ var h=R('h1'),a=R('a'); if(!h||!a) return false; return Math.abs((h.top+h.height/2)-(a.top+a.height/2))<=4; }},
+    {t:'Change the link colour when hovered', ok:function(){ return rule(/a\s*:hover/, function(s){ return !!s.getPropertyValue('color'); }); }}
+  ]
+},
+{
+  id:'table', short:'Table', name:'Style the cart table',
+  story:'Turn the plain table into a neat cart: full width, clean lines, a dark header, comfortable cells, striped rows and a highlight under the mouse.',
+  sels:['table','th','td','tr'],
+  html:'<table><thead><tr><th>Item</th><th>Price</th><th>Qty</th></tr></thead><tbody><tr><td>Donut</td><td>KSh 20</td><td>2</td></tr><tr><td>Chips</td><td>KSh 100</td><td>1</td></tr><tr><td>Juice</td><td>KSh 50</td><td>2</td></tr><tr><td>Mango</td><td>KSh 30</td><td>3</td></tr></tbody></table>',
+  base:'',
+  goals:[
+    {t:'Make the table fill the whole width', ok:function(){ var t=R('table'); return !!t && t.width>=inner(canvas).width-2; }},
+    {t:'Join the cell borders into single lines', ok:function(){ return S('table','borderCollapse')==='collapse'; }},
+    {t:'Give the header a dark background with light text', ok:function(){ return isDark(S('th','backgroundColor')) && isLight(S('th','color')); }},
+    {t:'Add at least 10px of space inside the cells', ok:function(){ return px(S('td','paddingTop'))>=10 && px(S('td','paddingLeft'))>=10; }},
+    {t:'Stripe the rows (two neighbouring rows must look different)', ok:function(){ var tr=all('tbody tr'); if(tr.length<2) return false; function k(e){ return getComputedStyle(e).backgroundColor+'|'+getComputedStyle(e.querySelector('td')).backgroundColor; } return k(tr[0])!==k(tr[1]); }},
+    {t:'Highlight a row when the mouse is over it', ok:function(){ return rule(/(tr|td)\s*:hover/, bgOf); }}
+  ]
+},
+{
+  id:'form', short:'Form', name:'Tidy the checkout form',
+  story:'Make the form neat: labels above their boxes, fields and button filling the card, rounded boxes with room inside, and a highlight on the box you click.',
+  sels:['.checkout','label','.field','button'],
+  html:'<form class="checkout"><label for="n">Your name</label><input class="field" id="n" type="text" placeholder="e.g. Amani"><label for="a">Delivery area</label><select class="field" id="a"><option>Nairobi CBD</option><option>Westlands</option></select><button type="button">Place order</button></form>',
+  base:'.checkout{width:min(100%,330px);padding:20px;background:#fff;border:2px solid #C7CFF3;border-radius:16px}.field{font:inherit}button{font:inherit;font-weight:800;padding:12px 22px;border:0;border-radius:10px;background:#1C2150;color:#fff;margin-top:16px}',
+  goals:[
+    {t:'Put each label on its own line above its box', ok:function(){ var l=all('label'); return l.length>1 && l.every(function(e){ return getComputedStyle(e).display==='block'; }); }},
+    {t:'Make both fields exactly as wide as the space inside the card', ok:function(){ var f=all('.field'), form=q('.checkout'); if(f.length<2||!form) return false; var w=inner(form).width; return f.every(function(e){ return Math.abs(e.getBoundingClientRect().width-w)<=1.5; }); }},
+    {t:'Make the button exactly as wide as the space inside the card', ok:function(){ var b=R('button'), form=q('.checkout'); if(!b||!form) return false; return Math.abs(b.width-inner(form).width)<=1.5; }},
+    {t:'Add at least 10px of space inside the fields', ok:function(){ var f=all('.field'); return f.length>1 && f.every(function(e){ var s=getComputedStyle(e); return px(s.paddingTop)>=10 && px(s.paddingLeft)>=10; }); }},
+    {t:'Round the field corners by 8px or more', ok:function(){ return radiusPx('.field')>=8; }},
+    {t:'Highlight the field you click in', ok:function(){ return rule(/:focus/, function(s){ return !!(s.getPropertyValue('border-color')||s.getPropertyValue('border')||s.getPropertyValue('outline')||s.getPropertyValue('box-shadow')||bgOf(s)); }); }}
+  ]
+},
+{
+  id:'boss', short:'Boss', name:'Boss level: the sale badge',
+  story:'Stick a tilted red SALE badge to the top-right corner of the product card, with white text, room inside and rounded corners. The badge must sit on the card, not on the page.',
+  sels:['.product','.badge'],
+  html:'<div class="product"><span class="badge">SALE</span><div class="pic">🥭</div><h3>Mango</h3><p>KSh 30</p></div>',
+  base:'.product{width:200px;margin:14px auto 0;padding:20px;border:2px solid #1C2150;border-radius:16px;text-align:center}.product h3,.product p{margin:4px 0}.pic{font-size:56px}.badge{font-weight:800;font-size:14px}',
+  goals:[
+    {t:'Make the product card the anchor for the badge', ok:function(){ return S('.product','position')==='relative'; }},
+    {t:'Take the badge out of the normal flow', ok:function(){ return S('.badge','position')==='absolute'; }},
+    {t:'Place the badge in the top-right corner of the card', ok:function(){ var b=R('.badge'), c=R('.product'); if(!b||!c) return false; var bx=b.left+b.width/2, by=b.top+b.height/2; return bx>c.left+c.width*0.6 && by<c.top+c.height*0.3; }},
+    {t:'Make the badge red with white text', ok:function(){ return isRed(S('.badge','backgroundColor')) && isLight(S('.badge','color')); }},
+    {t:'Add 4px or more of space inside the badge and round its corners (6px+)', ok:function(){ return px(S('.badge','paddingTop'))>=4 && px(S('.badge','paddingLeft'))>=4 && radiusPx('.badge')>=6; }},
+    {t:'Tilt the badge', ok:function(){ var t=S('.badge','transform'); return !!t && t!=='none'; }}
+  ]
+}
+];
+
+/* ---------- saved progress (optional) ---------- */
+var KEY = 'css-quest-challenge-v1';
+var state = {done:[], code:{}};
+try{
+  var saved = JSON.parse(localStorage.getItem(KEY));
+  if(saved && Array.isArray(saved.done)){ state.done = saved.done; state.code = saved.code || {}; }
+}catch(e){}
+var saveTimer;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }, 250);
+}
+
+var editor = $('code'), cur = 0, tabFree = false;
+var stepsEl = $('steps'), goalsEl = $('goals');
+var TICK = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7"/></svg>';
+
+LEVELS.forEach(function(L,i){
+  var li = document.createElement('li');
+  var b = document.createElement('button');
+  b.type='button'; b.className='step';
+  b.innerHTML = '<span class="n">'+(i+1)+'</span><span class="t">'+L.short+'</span>';
+  b.addEventListener('click', function(){ load(i); });
+  li.appendChild(b); stepsEl.appendChild(li);
+});
+$('total').textContent = LEVELS.length;
+
+function refreshChrome(){
+  stepsEl.querySelectorAll('.step').forEach(function(b,i){
+    var L = LEVELS[i], done = state.done.indexOf(L.id) > -1;
+    b.classList.toggle('done', done);
+    if(i===cur) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current');
+    b.setAttribute('aria-label','Level '+(i+1)+', '+L.name+(done?', finished':''));
+  });
+  $('count').textContent = state.done.length;
+}
+
+function load(i){
+  cur = i; var L = LEVELS[i];
+  $('lvlNo').textContent = 'Level '+(i+1)+' of '+LEVELS.length;
+  $('lvlName').textContent = L.name;
+  $('lvlStory').textContent = L.story;
+  var v = $('sels'); v.innerHTML = '';
+  var lab = document.createElement('span'); lab.textContent = 'Use these:'; v.appendChild(lab);
+  L.sels.forEach(function(w){ var c=document.createElement('code'); c.textContent=w; v.appendChild(c); });
+
+  baseEl.textContent = L.base;
+  canvas.innerHTML = L.html;
+  editor.value = (state.code[L.id] != null) ? state.code[L.id] : STUB;
+
+  goalsEl.innerHTML = '';
+  L.goals.forEach(function(g){
+    var li = document.createElement('li');
+    li.innerHTML = '<span class="tick">'+TICK+'</span><span class="gt"></span><span class="sr"> not done yet</span>';
+    li.querySelector('.gt').textContent = g.t;
+    goalsEl.appendChild(li);
+  });
+  $('helper').hidden = true; $('win').hidden = true;
+  resetArm(); refreshChrome(); update();
+}
+
+/* friendly typo catcher (it says what is wrong, not how to solve the level) */
+function short(t){ t = t.replace(/\s+/g,' '); return t.length>34 ? t.slice(0,34)+'...' : t; }
+function lint(code){
+  var msgs = [];
+  var clean = code.replace(/\/\*[\s\S]*?\*\//g,'');
+  var o = (clean.match(/\{/g)||[]).length, c = (clean.match(/\}/g)||[]).length;
+  if(o>c) msgs.push('You opened a { but did not close it with a }.');
+  if(c>o) msgs.push('There is an extra } with no { to match it.');
+  var re = /([^{}]+)\{([^{}]*)\}/g, m;
+  while((m = re.exec(clean))){
+    if(/^\s*@/.test(m[1])) continue;
+    m[2].split(';').forEach(function(line){
+      var t = line.trim(); if(!t) return;
+      var i = t.indexOf(':');
+      if(i < 1){ msgs.push('"'+short(t)+'" needs a colon in the middle.'); return; }
+      var p = t.slice(0,i).trim().toLowerCase(), v = t.slice(i+1).trim().replace(/\s*!important$/i,'');
+      if(!v){ msgs.push(p+' needs a value after the colon.'); return; }
+      if(/\n\s*[a-z-]+\s*:/i.test(v)){ msgs.push('Did you forget a ; at the end of the line above "'+short(v.split('\n').pop())+'"?'); return; }
+      if(window.CSS && CSS.supports && !CSS.supports(p, v)){
+        msgs.push('"'+short(p+': '+v)+'" is not something CSS understands. Check the spelling.');
+      }
+    });
+  }
+  return msgs.slice(0,2);
+}
+
+function update(){
+  var L = LEVELS[cur];
+  userEl.textContent = editor.value;
+
+  var msgs = lint(editor.value), h = $('helper');
+  if(msgs.length){ h.innerHTML=''; msgs.forEach(function(t){ var p=document.createElement('p'); p.textContent=t; h.appendChild(p); }); h.hidden=false; }
+  else h.hidden = true;
+
+  var items = goalsEl.children, allMet = true;
+  L.goals.forEach(function(g,i){
+    var ok = false; try{ ok = !!g.ok(); }catch(e){}
+    if(!ok) allMet = false;
+    var li = items[i];
+    if(li){ li.classList.toggle('met', ok); li.querySelector('.sr').textContent = ok ? ' done' : ' not done yet'; }
+  });
+
+  var win = $('win');
+  if(allMet){
+    if(state.done.indexOf(L.id) === -1){
+      state.done.push(L.id); save(); refreshChrome();
+      var sc = $('score'); sc.classList.remove('pop'); void sc.offsetWidth; sc.classList.add('pop');
+    }
+    var last = cur === LEVELS.length-1;
+    $('winTitle').textContent = last ? 'Quest complete! You are a CSS pro.' : 'Level complete!';
+    $('winText').textContent = last ? 'You built a real shop with real CSS. Well done!' : 'Nice work. Ready for the next one?';
+    $('nextBtn').hidden = last;
+    win.hidden = false;
+  } else win.hidden = true;
+}
+
+var raf;
+editor.addEventListener('input', function(){
+  state.code[LEVELS[cur].id] = editor.value; save();
+  cancelAnimationFrame(raf); raf = requestAnimationFrame(update);
+});
+editor.addEventListener('keydown', function(ev){
+  if(ev.key === 'Escape'){ tabFree = true; return; }
+  if(ev.key === 'Tab' && !tabFree && !ev.shiftKey){
+    ev.preventDefault();
+    editor.setRangeText('  ', editor.selectionStart, editor.selectionEnd, 'end');
+    editor.dispatchEvent(new Event('input'));
+  }
+});
+editor.addEventListener('blur', function(){ tabFree = false; });
+
+var armed = false, armTimer;
+function resetArm(){ armed=false; clearTimeout(armTimer); $('resetBtn').textContent='Start over'; }
+$('resetBtn').addEventListener('click', function(){
+  if(!armed){ armed = true; $('resetBtn').textContent = 'Really start over?'; armTimer = setTimeout(resetArm, 3000); return; }
+  resetArm(); editor.value = STUB; editor.dispatchEvent(new Event('input'));
+});
+$('nextBtn').addEventListener('click', function(){
+  if(cur < LEVELS.length-1){ load(cur+1); window.scrollTo({top:0, behavior:'smooth'}); }
+});
+
+var startAt = LEVELS.length-1;
+for(var k=0;k<LEVELS.length;k++){ if(state.done.indexOf(LEVELS[k].id)===-1){ startAt = k; break; } }
+load(startAt);
+})();
+</script>
